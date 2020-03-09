@@ -1,6 +1,6 @@
 class Train
   attr_accessor :speed
-  attr_reader :number_of_carriages, :previous_station, :current_station, :next_station
+  attr_reader :number_of_carriages, :previous_station, :current_station, :next_station, :current_route, :train_number, :type
 
 #train_number == string, type == 'pass' or 'cargo'
   def initialize(train_number, type, number_of_carriages)
@@ -12,6 +12,7 @@ class Train
     @next_station = nil
     @current_station = nil
     @previous_station = nil
+    @@current_index = nil
   end
 
   def add_carriage
@@ -24,25 +25,29 @@ class Train
 
   def set_current_route(route)
     @current_route = route
-
-    #why it does't work without .route? How to make it to work without, if possible?
-    @current_station = @current_route[0]
+    @@current_index = 0
+    @current_station = current_route.route[@@current_index]
     @current_station.add_train(self)
+    @next_station = @current_route.route[@@current_index + 1]
   end
 
-#later refactor for situations when @carrent_station == last station in @current_route
   def go_next_station
-    @next_station = @current_route[@current_route.index(@current_station) + 1]
     @current_station.send_train(self)
+    @@current_index +=1 unless @@current_index == @current_route.route.size
     @current_station = @next_station
     @current_station.add_train(self)
+    @next_station = @current_route.route[@@current_index + 1] unless @@current_index == (@current_route.route.size - 1)
+    @previous_station = @current_route.route[@@current_index - 1]
   end
 
 #later refactor for situations when @carrent_station == first station in @current_route
   def go_previous_station
-    @previous_station = @current_route[@current_route.index(@current_station) - 1]
+    #@previous_station = @current_route[@current_route.index(@current_station) - 1]
     @current_station.send_train(self)
+    @@current_index -=1 unless @@current_index == 0
     @current_station = @previous_station
     @current_station.add_train(self)
+    @next_station = @current_route.route[@@current_index + 1] unless @@current_index == (@current_route.route.size - 1)
+    @previous_station = @current_route.route[@@current_index - 1] unless @@current_index == 0
   end
 end
