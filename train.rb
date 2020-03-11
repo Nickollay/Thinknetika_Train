@@ -1,6 +1,6 @@
 class Train
   attr_accessor :speed
-  attr_reader :number_of_carriages, :previous_station, :current_station, :next_station, :current_route, :train_number, :type
+  attr_reader :number_of_carriages, :current_route, :train_number, :type
 
 #train_number == string, type == 'pass' or 'cargo'
   def initialize(train_number, type, number_of_carriages)
@@ -9,10 +9,6 @@ class Train
     @number_of_carriages = number_of_carriages
     @speed = 0
     @current_route = []
-    @next_station = nil
-    @current_station = nil
-    @previous_station = nil
-    @current_index = nil
   end
 
   def add_carriage
@@ -23,31 +19,49 @@ class Train
     @number_of_carriages -=1 if @speed == 0
   end
 
-  def set_current_route(route)
-    @current_route = route
+  def set_current_route(stations)
+    @current_route = stations
     @current_index = 0
-    @current_station = current_route.route[@current_index]
+    @current_station = @current_route.stations[0]
     @current_station.add_train(self)
-    @next_station = @current_route.route[@current_index + 1]
+  end
+
+  def current_station
+    @current_station  = self.current_route.stations.each { |station| return station if station.trains.include?(self) }
+  end
+
+  def current_index
+    @current_index = @current_route.stations.index(@current_station)
+  end
+
+  def next_station
+    if self.current_index == (@current_route.stations.size - 1)
+      puts 'The train is already at the end station!'
+      @next_station = @current_route.stations[-1]
+    else
+      @next_station = self.current_route.stations[(self.current_index + 1)]
+    end
+  end
+
+  def previous_station
+    if self.current_index == 0
+      puts 'The train is already at the begining station!'
+      @previous_station = current_route.stations[0]
+    else
+      @previous_station = current_route.stations[current_index - 1]
+    end
+
   end
 
   def go_next_station
     @current_station.send_train(self)
-    @current_index +=1 unless @current_index == @current_route.route.size
-    @current_station = @next_station
+    @current_station = self.next_station
     @current_station.add_train(self)
-    @next_station = @current_route.route[@current_index + 1] unless @current_index == (@current_route.route.size - 1)
-    @previous_station = @current_route.route[@current_index - 1]
   end
 
-#later refactor for situations when @carrent_station == first station in @current_route
   def go_previous_station
-    #@previous_station = @current_route[@current_route.index(@current_station) - 1]
     @current_station.send_train(self)
-    @current_index -=1 unless @current_index == 0
-    @current_station = @previous_station
+    @current_station = self.previous_station
     @current_station.add_train(self)
-    @next_station = @current_route.route[@current_index + 1] unless @current_index == (@current_route.route.size - 1)
-    @previous_station = @current_route.route[@current_index - 1] unless @current_index == 0
   end
 end
