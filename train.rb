@@ -19,8 +19,8 @@ class Train
     @number_of_carriages -=1 if @speed == 0
   end
 
-  def set_current_route(stations)
-    @current_route = stations
+  def set_current_route(route)
+    @current_route = route
     @current_index = 0
     @current_station = @current_route.stations[0]
     @current_station.add_train(self)

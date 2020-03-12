@@ -45,11 +45,11 @@ puts '1<< sim'
 t1.go_previous_station
 puts t1.current_index
 puts t1.current_station
-puts '0<< sim'
+puts '0<< mos'
 t1.go_previous_station
 puts t1.current_index
 puts t1.current_station
-puts '0<< sim again'
+puts '0<< mos again'
 t1.go_previous_station
 puts t1.current_index
 puts t1.current_station
