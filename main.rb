@@ -29,31 +29,31 @@ t3.set_current_route (ms)
 
 puts 'TEST current station'
 
-puts t1.current_index
+
 puts t1.current_station
 puts '>>1 sim'
 t1.go_next_station
-puts t1.current_index
+
 puts t1.current_station
 puts '>>2 sev'
 t1.go_next_station
-puts t1.current_index
+
 puts t1.current_station
 puts '>>2 sev again'
 t1.go_next_station
-puts t1.current_index
+
 puts t1.current_station
 puts '1<< sim'
 t1.go_previous_station
-puts t1.current_index
+
 puts t1.current_station
 puts '0<< mos'
 t1.go_previous_station
-puts t1.current_index
+
 puts t1.current_station
 puts '0<< mos again'
 t1.go_previous_station
-puts t1.current_index
+
 puts t1.current_station
 
 p1 = PassengerTrain.new('typkkkkPass', 10)

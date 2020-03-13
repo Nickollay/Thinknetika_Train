@@ -19,6 +19,7 @@ class Train
     @number_of_carriages -=1 if @speed.zero?
   end
 
+#protected??
   def set_current_route(route)
     @current_route = route
     @current_index = 0
@@ -30,21 +31,19 @@ class Train
     @current_station  = self.current_route.stations.each { |station| return station if station.trains.include?(self) }
   end
 
-  def current_index
-    @current_index = @current_route.stations.index(@current_station)
-  end
+
 
   def next_station
-    if self.current_index == (@current_route.stations.size - 1)
+    if current_index == (@current_route.stations.size - 1)
       puts 'The train is already at the end station!'
       @next_station = @current_route.stations[-1]
     else
-      @next_station = self.current_route.stations[(self.current_index + 1)]
+      @next_station = self.current_route.stations[(current_index + 1)]
     end
   end
 
   def previous_station
-    if self.current_index.zero?
+    if current_index.zero?
       puts 'The train is already at the begining station!'
       @previous_station = current_route.stations[0]
     else
@@ -66,5 +65,9 @@ class Train
   end
 
   private
+#current_index used only by methods of instance.
+  def current_index
+    @current_index = @current_route.stations.index(@current_station)
+  end
 
 end

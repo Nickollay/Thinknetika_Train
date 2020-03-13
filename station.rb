@@ -14,6 +14,7 @@ class Station
       |train| puts "#{self.name} station: #{train.train_number}, #{train.type}"
     }
   end
+
   #later give to user possibility in main.rb to chose and enter variable by_type.
   def show_trains_on_station_by_type(by_type)
     @trains.select { |train| train.type == by_type}
