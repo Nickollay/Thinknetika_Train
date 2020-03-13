@@ -12,11 +12,11 @@ class Train
   end
 
   def add_carriage
-    @number_of_carriages += 1 if @speed == 0
+    @number_of_carriages += 1 if @speed.zero?
   end
 
   def delete_carriage
-    @number_of_carriages -=1 if @speed == 0
+    @number_of_carriages -=1 if @speed.zero?
   end
 
   def set_current_route(route)
@@ -44,7 +44,7 @@ class Train
   end
 
   def previous_station
-    if self.current_index == 0
+    if self.current_index.zero?
       puts 'The train is already at the begining station!'
       @previous_station = current_route.stations[0]
     else
