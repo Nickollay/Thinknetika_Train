@@ -3,9 +3,9 @@ class Train
   attr_reader :number_of_carriages, :current_route, :train_number, :type
 
 #train_number == string, type == 'pass' or 'cargo'
-  def initialize(train_number, type, number_of_carriages)
+  def initialize(train_number, number_of_carriages)
     @train_number = train_number.to_s
-    @type = type
+    @type = "type don't defined yet"
     @number_of_carriages = number_of_carriages
     @speed = 0
     @current_route = []

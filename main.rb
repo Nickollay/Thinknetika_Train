@@ -1,6 +1,8 @@
 
 #!!!! For now file main.rb only for testing other classes.
 require_relative 'train'
+require_relative 'passenger_train'
+require_relative 'cargo_train'
 require_relative 'station'
 require_relative 'route'
 
@@ -15,9 +17,9 @@ ms = Route.new mos, sev
 ms.add_way_station (sim)
 
 
-t1 = Train.new 't1_pass', 'pass', 10
-t2 = Train.new 't2_cargo', 'cargo', 5
-t3 = Train.new 't3_pass', 'pass', 15
+t1 = PassengerTrain.new 't1_pass', 10
+t2 = CargoTrain.new 't2_cargo', 5
+t3 = PassengerTrain.new 't3_pass', 15
 
 
 
@@ -53,3 +55,5 @@ puts '0<< mos again'
 t1.go_previous_station
 puts t1.current_index
 puts t1.current_station
+
+p1 = PassengerTrain.new('typkkkkPass', 10)
