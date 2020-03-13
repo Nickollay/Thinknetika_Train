@@ -64,4 +64,7 @@ class Train
     @current_station = self.previous_station
     @current_station.add_train(self)
   end
+
+  private
+
 end

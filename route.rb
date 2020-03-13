@@ -16,4 +16,7 @@ class Route
   def to_s
     @stations.each { |station| puts station.name}
   end
+
+  private
+
 end

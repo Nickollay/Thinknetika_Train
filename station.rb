@@ -19,7 +19,10 @@ class Station
     @trains.select { |train| train.type == by_type}
   end
 
-  def send_train(train)
-    @trains.delete(train)
-  end
+
+
+  private
+    def send_train(train)
+      @trains.delete(train)
+    end
 end
