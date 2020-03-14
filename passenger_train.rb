@@ -3,4 +3,4 @@ class PassengerTrain < Train
     super
     @type = 'pass'
   end
-end
+ end

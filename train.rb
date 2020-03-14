@@ -1,22 +1,28 @@
 class Train
   attr_accessor :speed
-  attr_reader :number_of_carriages, :current_route, :train_number, :type
+  attr_reader :carriages, :current_route, :train_number, :type
 
 #train_number == string, type == 'pass' or 'cargo'
   def initialize(train_number, number_of_carriages)
     @train_number = train_number.to_s
     @type = "type don't defined yet"
-    @number_of_carriages = number_of_carriages
+    @carriages = []
     @speed = 0
     @current_route = []
   end
 
-  def add_carriage
-    @number_of_carriages += 1 if @speed.zero?
+  def add_carriage(carriage)
+    if @speed.zero? && (carriage.carriage_type == self.type)
+      @carriages << carriage
+      puts "Carriage #{carriage} added."
+    else
+      puts 'Wrong type of carriage.'
+    end
   end
 
-  def delete_carriage
-    @number_of_carriages -=1 if @speed.zero?
+  def delete_carriage(carriage)
+    @carriages.delete(carriage) if @speed.zero?
+    puts "Carriage #{carriage} deleted."
   end
 
 #protected??
@@ -30,8 +36,6 @@ class Train
   def current_station
     @current_station  = self.current_route.stations.each { |station| return station if station.trains.include?(self) }
   end
-
-
 
   def next_station
     if current_index == (@current_route.stations.size - 1)
@@ -69,5 +73,4 @@ class Train
   def current_index
     @current_index = @current_route.stations.index(@current_station)
   end
-
 end
