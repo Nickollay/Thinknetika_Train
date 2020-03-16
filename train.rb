@@ -53,7 +53,6 @@ class Train
     else
       @previous_station = current_route.stations[current_index - 1]
     end
-
   end
 
   def go_next_station
