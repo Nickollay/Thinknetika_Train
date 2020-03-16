@@ -11,39 +11,20 @@ require_relative 'route'
 
 class Menu
 
-  def menu
-    puts 'Enter: 1, if you want to create station, train, carriage or route for train.'
-    puts 'Enter: 2, if you want to manipulate with created objects.'
-    puts 'Enter: 3, if you want to look at list of created objects'
-    puts 'Enter: stop, if you want to exit.'
+  def start
+    puts 'Hello!'
+    menu
   end
-
-  
-  def menu_1
-
-  end
-
-  def menu_2
-
-  end
-
-  def menu_3
-
-  end
-
-
 
   private
-  def input
-    @input = gets.chomp.downcase
+  def menu_items
+    puts 'Enter: 1, if you want to create station, train, carriage or route for train.'
+    puts 'Enter: 2, if you want to manipulate with created objects.'
+    puts 'Enter: 3, if you want to look at list of created objects.'
+    puts 'Enter: exit, if you want to exit.'
   end
 
-  # add message later
-  def stop
-    abort
-  end
-
-  def choice
+  def menu_choice
     case input
     when '1'
       menu_1
@@ -51,13 +32,64 @@ class Menu
       menu_2
     when '3'
       menu_3
-    when 'stop'
-      stop
+    when 'exit'
+      puts 'Good buy!'
+      exit(0)
     else
+      puts 'Wrong input!'
       menu
     end
   end
 
+  def menu
+    menu_items
+    menu_choice
+  end
+
+  def menu_1_items
+    puts 'If you want to create:'
+    puts 'Station, enter: 1'
+    puts 'Train, enter: 2'
+    puts 'Route, enter: 3'
+    puts 'Carriage, enter: 4'
+    puts 'Enter: 5, go to the main menu.'
+    puts 'Enter: exit, to exit.'
+  end
+
+  def menu_1_choice
+    case input
+    when '1'
+    when '2'
+    when '3'
+    when '4'
+    when '5'
+      menu
+    when 'exit'
+      exit(0)
+    else
+      puts 'Wrong input!'
+      menu_1_choice
+    end
+  end
+
+  def menu_1
+    menu_1_items
+    menu_1_choice
+
+  end
+
+  def menu_2
+  end
+
+  def menu_3
+  end
+
+  def input
+    @input = gets.chomp.downcase
+  end
+end
+
+Menu.new.start
   # puts "Enter 'add station'
   # Создавать станции
   #- Создавать поезда
@@ -67,7 +99,7 @@ class Menu
   #- Отцеплять вагоны от поезда
   #- Перемещать поезд по маршруту вперед и назад
   #- Просматривать список станций и список поездов на станции
-end
+
 
 
 
@@ -131,4 +163,5 @@ p1 = PassengerCarriage.new
 t1.add_carriage(c1)
 t1.add_carriage(p1)
 
-t1.delete_carriage(p1)=end
+t1.delete_carriage(p1)
+=end
