@@ -14,6 +14,7 @@ class Route
   end
 
   def to_s
-    @stations.each { |station| puts station.name}
+    @stations.each { |station| print "#{station.name} "}
+    puts
   end
 end

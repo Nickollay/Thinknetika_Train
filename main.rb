@@ -1,5 +1,4 @@
-
-#!!!! For now file main.rb only for testing other classes.
+# !!!! For now file main.rb only for testing other classes.
 require_relative 'train'
 require_relative 'passenger_train'
 require_relative 'cargo_train'
@@ -10,7 +9,6 @@ require_relative 'station'
 require_relative 'route'
 
 class Menu
-
   def initialize
     @created_stations = []
     @created_pass_trains = []
@@ -26,11 +24,12 @@ class Menu
   end
 
   private
+
   def menu
-    puts 'Enter: 1, if you want to create station, train, carriage or route for train.'
-    puts 'Enter: 2, if you want to manipulate with created objects.'
-    puts 'Enter: 3, if   you want to look at list of created objects.'
-    puts 'Enter: exit, if you want to exit.'
+    puts 'Enter: 1, to create station, train, carriage or route for train.'
+    puts 'Enter: 2, to manipulate with created objects.'
+    puts 'Enter: 3, to look at list of created objects.'
+    puts 'Enter: exit, to exit.'
     case input
     when '1'
       menu_1
@@ -49,10 +48,10 @@ class Menu
 
   def menu_1
     puts 'If you want to create:'
-    puts 'Station, enter: 1'
-    puts 'Train, enter: 2'
-    puts 'Route, enter: 3'
-    puts 'Carriage, enter: 4'
+    puts 'Enter: 1, to create station.'
+    puts 'Enter: 2, to create train.'
+    puts 'Enter: 3 to create route.'
+    puts 'Enter: 4 to create carriage.'
     puts 'Enter: 5, go to the main menu.'
     puts 'Enter: exit, to exit.'
     case input
@@ -96,6 +95,33 @@ class Menu
   end
 
   def menu_3
+    puts 'Enter: 1, to look at created stations.'
+    puts 'Enter: 2, to look at created routes.'
+    puts 'Enter: 3, to look at created trains.'
+    puts 'Enter: 4, to look at trains on station.'
+    puts 'Enter: 5, to go to the main menu.'
+    case input
+    when '1'
+      created_stations_list
+    when '2'
+      @created_routes.each do |route|
+        print "#{@created_routes.index(route) + 1}: "
+        route.to_s
+      end
+    when '3'
+      puts 'Passenger trains:'
+      @created_pass_trains.each { |train| puts "#{@created_pass_trains.index(train) + 1}: #{train.train_number}" }
+      puts 'Cargo trains:'
+      @created_cargo_trains.each { |train| puts "#{@created_cargo_trains.index(train) + 1}: #{train.train_number}" }
+    when '4'
+      created_stations_list
+
+    when '5'
+      menu
+    else
+      puts 'Invalid input!'
+    end
+    menu_3
   end
 
   def input
@@ -111,6 +137,7 @@ class Menu
   def menu_create_route
     #add later message of invalid input.
     puts 'Enter: number of start station.'
+    input
     input until valid_input?(@created_stations)
     start_station = @created_stations[@input.to_i - 1]
     puts 'Enter: number of end station.'
@@ -124,23 +151,27 @@ class Menu
     puts 'Enter: 1, to create passenger train'
     puts 'Enter: 2, to create cargo train'
     puts 'Enter: 3, to go previous menu.'
+    puts 'Enter: 4, to go to the main menu.'
     puts 'Enter: exit, to exit.'
     case input
     when '1'
     puts "Enter: train's number:"
     @created_pass_trains << PassengerTrain.new(input)
-    puts "Passenger train #{@input.to_s} was created."
+    puts "Passenger train #{@input} was created."
     when '2'
     puts "Enter: train's number:"
     @created_cargo_trains << CargoTrain.new(input)
-    puts "Cargo train #{@input.to_s} was created."
+    puts "Cargo train #{@input} was created."
     when '3'
     menu_1
+    when '4'
+      menu
     when 'exit'
       exit(0)
     else
       puts 'Wrong input!'
     end
+    menu_create_train
   end
 
   def menu_create_carriage
@@ -166,15 +197,22 @@ class Menu
   end
 
   def menu_manipulate_routes
-    #Before:
+    #Maybe later, before:
     # 1) should show all created routs with from array @created_routs in format,
     # index_number - object: 1. arr[0], 2. arr[1]..
     # 2) choose route to manipulate.
-    puts 'Enter: 1, to add station to the route'
-    puts 'Enter:'
-    puts 'Enter:'
-    puts 'Enter:'
-    puts 'Enter:'
+    puts 'Enter: 1, to add station to the route.'
+    puts 'Enter: 2, to delete station from the route.'
+    puts 'Enter: 3, go to the train menu.'
+    puts 'Enter: 4, go to the main menu.'
+    puts 'Enter: 5, go to previous menu.'
+    case input
+    when '1'
+      input
+      # shold use Route::add_way_station
+      #@created_routes << @created_stations[@input] until @created_routes.include?(@created_stations[@input])
+      #puts 'Station added to the route'
+    end
   end
 
   def menu_manipulate_trains
@@ -188,6 +226,10 @@ class Menu
 
   def valid_input?(arr)
     @input.to_i > 0 && @input.to_i <= arr.size
+  end
+
+  def created_stations_list
+    @created_stations.each { |station| puts "#{@created_stations.index(station) + 1}: #{station.name}" }
   end
 
 end
