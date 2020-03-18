@@ -68,6 +68,7 @@ class Train
   end
 
   private
+
 #current_index used only by methods of instance.
   def current_index
     @current_index = @current_route.stations.index(@current_station)

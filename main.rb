@@ -88,6 +88,8 @@ class Menu
       menu_manipulate_carriages
     when '4'
       menu
+    when 'exit'
+      puts 'Enter: exit, to exit.'
     else
       puts 'Invalid input!'
     end
@@ -100,24 +102,21 @@ class Menu
     puts 'Enter: 3, to look at created trains.'
     puts 'Enter: 4, to look at trains on station.'
     puts 'Enter: 5, to go to the main menu.'
+    puts 'Enter: exit, to exit.'
     case input
     when '1'
       created_stations_list
     when '2'
-      @created_routes.each do |route|
-        print "#{@created_routes.index(route) + 1}: "
-        route.to_s
-      end
+      created_routes_list
     when '3'
-      puts 'Passenger trains:'
-      @created_pass_trains.each { |train| puts "#{@created_pass_trains.index(train) + 1}: #{train.train_number}" }
-      puts 'Cargo trains:'
-      @created_cargo_trains.each { |train| puts "#{@created_cargo_trains.index(train) + 1}: #{train.train_number}" }
+      created_pass_trains_list
+      created_cargo_trains_list
     when '4'
-      created_stations_list
-
+      show_trains_on_current_station
     when '5'
       menu
+    when 'exit'
+      exit(0)
     else
       puts 'Invalid input!'
     end
@@ -197,22 +196,27 @@ class Menu
   end
 
   def menu_manipulate_routes
-    #Maybe later, before:
-    # 1) should show all created routs with from array @created_routs in format,
-    # index_number - object: 1. arr[0], 2. arr[1]..
-    # 2) choose route to manipulate.
     puts 'Enter: 1, to add station to the route.'
     puts 'Enter: 2, to delete station from the route.'
     puts 'Enter: 3, go to the train menu.'
     puts 'Enter: 4, go to the main menu.'
     puts 'Enter: 5, go to previous menu.'
+    puts 'Enter: exit, to exit.'
     case input
     when '1'
-      input
-      # shold use Route::add_way_station
-      #@created_routes << @created_stations[@input] until @created_routes.include?(@created_stations[@input])
-      #puts 'Station added to the route'
+      menu_add_station
+    when '2'
+      menu_delete_station
+    when '3'
+      menu_manipulate_trains
+    when '4'
+      menu
+    when '5'
+      menu_2
+    when 'exit'
+      exit(0)
     end
+    menu_manipulate_routes
   end
 
   def menu_manipulate_trains
@@ -223,13 +227,71 @@ class Menu
 
   end
 
-
   def valid_input?(arr)
     @input.to_i > 0 && @input.to_i <= arr.size
   end
 
+  # Later if possible to give argument as method, than refactor with current method methods such as 'created_objects_list'
+  # def created_objects_list(created_objects, method)
+  # created_objects.each { |object| puts "#{created_objects.index(object) + 1}: #{object.method}" }
+  # end
+
   def created_stations_list
     @created_stations.each { |station| puts "#{@created_stations.index(station) + 1}: #{station.name}" }
+  end
+
+  def created_routes_list
+    @created_routes.each do |route|
+      print "#{@created_routes.index(route) + 1}: "
+      route.to_s
+    end
+  end
+
+  def created_pass_trains_list
+    puts 'Passenger trains:'
+    @created_pass_trains.each { |train| puts "#{@created_pass_trains.index(train) + 1}: #{train.train_number}" }
+  end
+
+  def created_cargo_trains_list
+    puts 'Cargo trains:'
+    @created_cargo_trains.each { |train| puts "#{@created_cargo_trains.index(train) + 1}: #{train.train_number}" }
+  end
+
+  def show_trains_on_current_station
+    created_stations_list
+    puts 'Enter sequence number of station'
+    station_sequence_number = input
+    puts "On current station #{@created_stations[station_sequence_number - 1]}:"
+    puts "Passenger trains:"
+    puts show_trains_on_station_by_type('pass').each.train_number
+    puts "Cargo trains on station:"
+    puts show_trains_on_station_by_type('cargo').each.train_number
+  end
+
+  def menu_add_station
+    puts 'For adding station:'
+    puts 'Choose route:'
+    created_routes_list
+    input until valid_input?(@created_routes)
+    manipulated_route_index = @input - 1
+    puts 'Choose station:'
+    created_stations_list
+    input until valid_input?(@created_stations)
+    @created_routes[manipulated_route_index].add_way_station(@created_stations[@input - 1]) until @created_routes.include?(@created_stations[@input])
+    puts "Station #{@created_stations[@input - 1].name} added to the chosen route."
+  end
+
+  def menu_delete_station
+    puts 'To delete station:'
+    puts 'Choose route:'
+    created_routes_list
+    input until valid_input?(@created_routes)
+    manipulated_route_index = @input - 1
+    puts 'Choose station:'
+    created_stations_list
+    input until valid_input?(@created_stations)
+    @created_routes[manipulated_route_index].delete_way_station(@created_stations[@input - 1]) while @created_routes.include?(@created_stations[@input])
+    puts "Station #{@created_stations[@input - 1].name} deleted from the chosen route."
   end
 
 end
