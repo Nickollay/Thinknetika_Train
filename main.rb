@@ -79,17 +79,18 @@ class Menu
     puts 'Enter: 2, to manipulate with created trains.'
     puts 'Enter: 3, to manipulate with created carriages.'
     puts 'Enter: 4, to go to the main menu.'
+    puts 'Enter: exit, to exit.'
     case input
     when '1'
       menu_manipulate_routes
     when '2'
       menu_manipulate_trains
     when '3'
-      menu_manipulate_carriages
+      menu_manipulate_trains
     when '4'
       menu
     when 'exit'
-      puts 'Enter: exit, to exit.'
+      exit(0)
     else
       puts 'Invalid input!'
     end
@@ -147,6 +148,7 @@ class Menu
   end
 
   def menu_create_train
+    #Should choose a train from created trains first
     puts 'Enter: 1, to create passenger train'
     puts 'Enter: 2, to create cargo train'
     puts 'Enter: 3, to go previous menu.'
@@ -191,7 +193,7 @@ class Menu
     when 'exit'
       exit(0)
     else
-      puts 'Wrong input!'
+      puts 'Invalid input!'
     end
   end
 
@@ -215,16 +217,43 @@ class Menu
       menu_2
     when 'exit'
       exit(0)
+    else
+      puts 'Invalid input!'
     end
     menu_manipulate_routes
   end
 
   def menu_manipulate_trains
+    puts 'Enter: 1, to set a route to a train.'
+    puts 'Enter: 2, to add a carriage to a train.'
+    puts 'Enter: 3, to delete a carriage from a train.'
+    puts 'Enter: 4, to set a speed to a train.'
+    puts 'Enter: 5, to go next station.'
+    puts 'Enter: 6, to go previous station.'
+    puts 'Enter: 7, to stop a train.'
+    puts 'Enter: 8, go to the main menu.'
+    puts 'Enter: 9, go to previous menu.'
+    puts 'Enter: exit, to exit.'
+    case input
+    when '1'
+      menu_set_rooute
+    when '2'
+      menu_add_carriage
+    when '3'
+    when '4'
+    when '5'
+    when '6'
+    when '7'
 
-  end
-
-  def menu_manipulate_carriages
-
+    when '8'
+      menu
+    when '9'
+      menu_2
+    when 'exit'
+      exit(0)
+    else
+      puts 'Invalid input!'
+    end
   end
 
   def valid_input?(arr)
@@ -255,6 +284,16 @@ class Menu
   def created_cargo_trains_list
     puts 'Cargo trains:'
     @created_cargo_trains.each { |train| puts "#{@created_cargo_trains.index(train) + 1}: #{train.train_number}" }
+  end
+
+  def created_passenger_carriages_list
+    puts 'Passsenger carriages:'
+    @created_pass_carriages.each { |carriage| puts "#{@created_pass_carriages.index(carriage) + 1}: #{carriage.carriage_number}"}
+  end
+
+  def created_cargo_carriages_list
+    puts 'Cargo carriages:'
+    @created_cargo_carriages.each { |carriage| puts "#{@created_cargo_carriages.index(carriage) + 1}: #{carriage.carriage_number}"}
   end
 
   def show_trains_on_current_station
@@ -294,6 +333,39 @@ class Menu
     puts "Station #{@created_stations[@input - 1].name} deleted from the chosen route."
   end
 
+  def menu_set_rooute
+
+  end
+
+  #Check it
+  def menu_add_carriage
+    puts 'Enter: 1, to add passenger carriage.'
+    puts 'Enter: 2, to add cargo carriage.'
+    puts 'Enter: 3, go to the main menu.'
+    puts 'Enter: 4, go to previous menu.'
+    puts 'Enter: exit, to exit.'
+    case input
+    when '1'
+      created_passenger_carriages_list
+      puts 'Enter sequence number of carriage'
+      carriage_sequence_number = input
+
+    when '2'
+      created_cargo_carriges_list
+      puts 'Enter sequence number of carriage'
+      carriage_sequence_number = input
+
+    when '3'
+      menu
+    when '4'
+      menu_manipulate_trains
+    when 'exit'
+    else
+      puts 'Invalid input!'
+    end
+
+
+  end
 end
 
 Menu.new.start
