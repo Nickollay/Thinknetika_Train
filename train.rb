@@ -14,18 +14,24 @@ class Train
   def add_carriage(carriage)
     if @speed.zero? && (carriage.carriage_type == self.type)
       @carriages << carriage
-      puts "Carriage #{carriage} added."
+      puts "Carriage #{carriage.carriage_number} added to the train #{self.train_number}."
+    elsif @speed > 0
+      puts 'Firstly stop the train.'
     else
-      puts 'Wrong type of carriage.'
+      puts 'Invalid type of carriage.'
     end
   end
 
   def delete_carriage(carriage)
-    @carriages.delete(carriage) if @speed.zero?
-    puts "Carriage #{carriage} deleted."
+    if @speed.zero?
+      @carriages.delete(carriage)
+      puts "Carriage #{carriage.carriage_number} was deleted from the train #{self.train_number}"
+    else
+      puts 'Firstly stop the train.'
+    end
+
   end
 
-#protected??
   def set_current_route(route)
     @current_route = route
     @current_index = 0
@@ -69,7 +75,7 @@ class Train
 
   private
 
-#current_index used only by methods of instance.
+# current_index private, 'cause used only by methods of instance.
   def current_index
     @current_index = @current_route.stations.index(@current_station)
   end
