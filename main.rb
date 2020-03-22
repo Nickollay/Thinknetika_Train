@@ -299,17 +299,17 @@ class Menu
 
   def created_passenger_carriages_list
     puts 'Passenger carriages:'
-    @created_pass_carriages.each { |carriage| puts "#{@created_pass_carriages.index(carriage) + 1}: #{carriage.carriage_number}"}
+    @created_pass_carriages.each { |carriage| puts "#{@created_pass_carriages.index(carriage) + 1}: #{carriage.number}"}
   end
 
   def created_cargo_carriages_list
     puts 'Cargo carriages:'
-    @created_cargo_carriages.each { |carriage| puts "#{@created_cargo_carriages.index(carriage) + 1}: #{carriage.carriage_number}"}
+    @created_cargo_carriages.each { |carriage| puts "#{@created_cargo_carriages.index(carriage) + 1}: #{carriage.number}"}
   end
 
   def train_carriages_list
     puts "Carriages of the train #{@train_to_manipulate.train_number}"
-    @train_to_manipulate.carriages.each { |carriage| puts "#{@train_to_manipulate.carriages.index(carriage) + 1}: #{carriage.carriage_number}"}
+    @train_to_manipulate.carriages.each { |carriage| puts "#{@train_to_manipulate.carriages.index(carriage) + 1}: #{carriage.number}"}
   end
 
   def created_route_stations_list
@@ -469,7 +469,7 @@ class Menu
       input
       input until valid_input?(carriages_by_type)
       @carriage_to_manipulate = carriages_by_type[@input.to_i - 1]
-      puts "Carriage #{@carriage_to_manipulate.carriage_number} was chosen."
+      puts "Carriage #{@carriage_to_manipulate.number} was chosen."
     end
 
     def add_chosen_carriage

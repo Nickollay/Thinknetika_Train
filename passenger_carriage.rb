@@ -1,5 +1,5 @@
 class PassengerCarriage < Carriage
-  def carriage_type
-    @carriage_type = 'pass'
+  def type
+    @type = 'pass'
   end
 end

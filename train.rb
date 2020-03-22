@@ -12,7 +12,7 @@ class Train
   end
 
   def add_carriage(carriage)
-    if @speed.zero? && (carriage.carriage_type == self.type)
+    if @speed.zero? && (carriage.type == self.type)
       @carriages << carriage
       puts "Carriage #{carriage.carriage_number} added to the train #{self.train_number}."
     elsif @speed > 0
