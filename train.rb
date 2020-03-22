@@ -1,10 +1,10 @@
 class Train
   attr_accessor :speed
-  attr_reader :carriages, :current_route, :train_number, :type
+  attr_reader :carriages, :current_route, :number, :type
 
-#train_number == string, type == 'pass' or 'cargo'
-  def initialize(train_number)
-    @train_number = train_number.to_s
+#number == string, type == 'pass' or 'cargo'
+  def initialize(number)
+    @number = number.to_s
     @type = "type don't defined yet"
     @carriages = []
     @speed = 0
@@ -14,7 +14,7 @@ class Train
   def add_carriage(carriage)
     if @speed.zero? && (carriage.type == self.type)
       @carriages << carriage
-      puts "Carriage #{carriage.carriage_number} added to the train #{self.train_number}."
+      puts "Carriage #{carriage.number} added to the train #{self.number}."
     elsif @speed > 0
       puts 'Firstly stop the train.'
     else
@@ -25,7 +25,7 @@ class Train
   def delete_carriage(carriage)
     if @speed.zero?
       @carriages.delete(carriage)
-      puts "Carriage #{carriage.carriage_number} was deleted from the train #{self.train_number}"
+      puts "Carriage #{carriage.number} was deleted from the train #{self.number}"
     else
       puts 'Firstly stop the train.'
     end

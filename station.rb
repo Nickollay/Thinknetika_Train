@@ -11,7 +11,7 @@ class Station
 
   def to_s
     @trains.each {
-      |train| puts "#{self.name} station: #{train.train_number}, #{train.type}"
+      |train| puts "#{self.name} station: #{train.number}, #{train.type}"
     }
   end
 
