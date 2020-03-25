@@ -6,13 +6,12 @@ class Train
   def initialize(number)
     @number = number.to_s
     @type = "type don't defined yet"
-    @carriages = []
     @speed = 0
-    @current_route = []
   end
 
   def add_carriage(carriage)
     if @speed.zero? && (carriage.type == self.type)
+      @carriages ||= Array.new
       @carriages << carriage
       puts "Carriage #{carriage.number} added to the train #{self.number}."
     elsif @speed > 0

@@ -7,8 +7,13 @@ require_relative 'passenger_carriage'
 require_relative 'station'
 require_relative 'route'
 
+# !!!!!!!!!!!!!!Take every puts from other classes into Menu class!!!!!!!!!!!!
 class Menu
   def initialize
+    # change pass and cargo into trains and cariages
+    # change some methods in code add select if nessesery
+    # delete empty initializations from def ini
+    # change validation where .empty?
     @stations = []
     @pass_trains = []
     @cargo_trains = []
