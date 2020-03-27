@@ -10,13 +10,6 @@ require_relative 'route'
 # !!!!!!!!!!!!!!Take every puts from other classes into Menu class!!!!!!!!!!!!
 class Menu
   def initialize
-    # delete empty initializations from def ini
-    # change validation where .empty?
-    # cariage_to_manipulate => cariage
-    @stations = []
-    @trains = []
-    @routes = []
-    @carriages = []
   end
 
   def start
@@ -132,8 +125,10 @@ class Menu
   end
 
   def menu_create_station
+
     puts "Enter: station's name."
     input
+    @stations ||= Array.new
     @stations << Station.new(@input)
     puts "Station #{@input} was created."
   end
@@ -151,6 +146,7 @@ class Menu
       puts 'Enter: sequence number of end station.'
       input until valid_input?(@stations) && @stations[@input.to_i - 1] != start_station
       end_station = @stations[@input.to_i - 1]
+      @routes ||= Array.new
       @routes << Route.new(start_station, end_station)
       puts 'New route was created.'
     end
@@ -165,10 +161,12 @@ class Menu
     case input
     when '1'
     puts "Enter: train's number:"
+    @trains ||= Array.new
     @trains << PassengerTrain.new(input)
     puts "Passenger train #{@input} was created."
     when '2'
     puts "Enter: train's number:"
+    @trains ||= Array.new
     @trains << CargoTrain.new(input)
     puts "Cargo train #{@input} was created."
     when '3'
@@ -190,10 +188,12 @@ class Menu
     case(input)
     when '1'
       puts 'Enter: passenger carriage number.'
+      @carriages ||= Array.new
       @carriages << PassengerCarriage.new(input)
       puts "Passenger carriage #{@input} was created."
     when '2'
       puts 'Enter: cargo carriage number.'
+      @carriages ||= Array.new
       @carriages << CargoCarriage.new(input)
       puts "Cargo carriage #{@input} was created."
     when '3'
@@ -273,7 +273,6 @@ class Menu
     menu_manipulate_trains
   end
 
-  # probably change
   def valid_input?(arr)
     @input.to_i > 0 && @input.to_i <= arr.size
   end
@@ -333,29 +332,29 @@ class Menu
   end
 
   def show_trains_on_current_station
-    if @stations.empty?
+    if !@stations
       puts 'Firstly create some stations'
       menu_create_station
     else
-    stations_list
-    puts 'Enter sequence number of station'
-    input until valid_input?(@stations)
-    station_sequence_number = @input.to_i
-    puts "On current station #{@stations[station_sequence_number - 1].name}:"
-    if @stations[station_sequence_number - 1].trains.empty?
-      puts '0 trains.'
-    else
-      puts "Passenger trains:"
-      puts @stations[station_sequence_number - 1].show_trains_on_station_by_type('pass').each.number
-      puts "Cargo trains on station:"
-      puts @stations[station_sequence_number - 1].show_trains_on_station_by_type('cargo').each.number
-    end
+      stations_list
+      puts 'Enter sequence number of station'
+      input until valid_input?(@stations)
+      station_sequence_number = @input.to_i
+      puts "On current station #{@stations[station_sequence_number - 1].name}:"
+      if !@stations[station_sequence_number - 1].trains
+        puts '0 trains.'
+      else
+        puts "Passenger trains:"
+        puts @stations[station_sequence_number - 1].show_trains_on_station_by_type('pass').each.number
+        puts "Cargo trains on station:"
+        puts @stations[station_sequence_number - 1].show_trains_on_station_by_type('cargo').each.number
+      end
     end
   end
 
   def menu_add_station
     puts 'For adding station:'
-    if @routes.empty?
+    if !@routes
       puts 'Firstly create some route.'
       menu_create_route
     else
@@ -375,7 +374,7 @@ class Menu
   end
 
   def menu_delete_station
-    if @routes.empty?
+    if !@routes
       puts 'Firstly create some route.'
       menu_create_route
     else
@@ -446,7 +445,7 @@ class Menu
 
   def menu_set_route
     routes_list
-    if @routes.empty?
+    if !@routes
       puts 'Firstly, create some route.'
       menu_create_route
     else
