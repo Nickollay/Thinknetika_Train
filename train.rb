@@ -5,7 +5,7 @@ class Train
 #number == string, type == 'pass' or 'cargo'
   def initialize(number)
     @number = number.to_s
-    @type = "type don't defined yet"
+    #@type = "type don't defined yet"
     @speed = 0
   end
 
@@ -28,7 +28,6 @@ class Train
     else
       puts 'Firstly stop the train.'
     end
-
   end
 
   def set_current_route(route)

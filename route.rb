@@ -13,11 +13,6 @@ class Route
     @stations.delete(station)
   end
 
-  # def to_s
-  #   @stations.each { |station| print "#{station.name} "}
-  #   puts
-  # end
-
   def to_s
     @stations.map { |station| station.name }
   end

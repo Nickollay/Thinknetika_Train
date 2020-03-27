@@ -15,8 +15,9 @@ class Menu
     # delete empty initializations from def ini
     # change validation where .empty?
     @stations = []
-    @pass_trains = []
-    @cargo_trains = []
+    # @pass_trains = []
+    # @cargo_trains = []
+    @trains = []
     @routes = []
     @pass_carriages = []
     @cargo_carriages = []
@@ -113,8 +114,7 @@ class Menu
     when '2'
       routes_list
     when '3'
-      pass_trains_list
-      cargo_trains_list
+      trains_list
     when '4'
       show_trains_on_current_station
     when '5'
@@ -165,11 +165,11 @@ class Menu
     case input
     when '1'
     puts "Enter: train's number:"
-    @pass_trains << PassengerTrain.new(input)
+    @trains << PassengerTrain.new(input)
     puts "Passenger train #{@input} was created."
     when '2'
     puts "Enter: train's number:"
-    @cargo_trains << CargoTrain.new(input)
+    @trains << CargoTrain.new(input)
     puts "Cargo train #{@input} was created."
     when '3'
     menu_1
@@ -253,10 +253,10 @@ class Menu
     when '4'
       menu_set_speed
     when '5'
-      menu_set_route  while @train_to_manipulate.current_route == []
+      menu_set_route  until @train_to_manipulate.current_route
       menu_go_next_station
     when '6'
-      menu_set_route while @train_to_manipulate.current_route == []
+      menu_set_route until @train_to_manipulate.current_route
       menu_go_previous_station
     when '7'
       @train_to_manipulate.speed = 0
@@ -273,6 +273,7 @@ class Menu
     menu_manipulate_trains
   end
 
+  # probably change
   def valid_input?(arr)
     @input.to_i > 0 && @input.to_i <= arr.size
   end
@@ -292,14 +293,21 @@ class Menu
     @routes.each { |route| puts "#{@routes.index(route) + 1}: #{route.to_s}" }
   end
 
+  def trains_list
+    puts 'Trains:'
+    @trains.each { |train| puts "#{train.number}" }
+  end
+
   def pass_trains_list
     puts 'Passenger trains:'
-    @pass_trains.each { |train| puts "#{@pass_trains.index(train) + 1}: #{train.number}" }
+    pass_trains = @trains.select { |train| train.type == 'pass' }
+    pass_trains.each { |train| puts "#{train.number}" }
   end
 
   def cargo_trains_list
     puts 'Cargo trains:'
-    @cargo_trains.each { |train| puts "#{@cargo_trains.index(train) + 1}: #{train.number}" }
+    cargo_trains = @trains.select { |train| train.type == 'cargo' }
+    cargo_trains.each { |train| puts "#{train.number}" }
   end
 
   def passenger_carriages_list
@@ -397,10 +405,10 @@ class Menu
     case input
     when '1'
       pass_trains_list
-      choose_train(@pass_trains)
+      choose_train('pass')
     when '2'
-      cargo_carriages_list
-      choose_train(@cargo_trains)
+      cargo_trains_list
+      choose_train('cargo')
     when '3'
       menu
     when 'exit'
@@ -411,18 +419,25 @@ class Menu
     end
   end
 
-  def choose_train(trains_by_type)
-    if trains_by_type.empty?
+  def choose_train(type)
+    if !@trains
       puts 'Firstly create some train!'
       menu_create_train
+    elsif @trains.select { |train| train.type == type }.empty?
+      puts "Firstly create some #{type} train."
+      menu_create_train
     else
-      puts 'Enter sequence number of train.'
+      puts 'Enter train number.'
       input
-      input until valid_input?(trains_by_type)
-      @train_to_manipulate = trains_by_type[@input.to_i - 1]
+      # valid_input? should  input == train number by type
+      input until train_by_number(@input)
+      @train_to_manipulate = train_by_number(@input)
       puts "Train #{@train_to_manipulate.number} was chosen."
-
     end
+  end
+
+  def train_by_number(number)
+    @trains.find { |train| train.number == number }
   end
 
   def menu_set_route
