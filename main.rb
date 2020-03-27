@@ -10,17 +10,17 @@ require_relative 'route'
 # !!!!!!!!!!!!!!Take every puts from other classes into Menu class!!!!!!!!!!!!
 class Menu
   def initialize
-    # change pass and cargo into trains and cariages
+    # change pass and cargo into cariages
     # change some methods in code add select if nessesery
     # delete empty initializations from def ini
     # change validation where .empty?
+    # cariage_to_manipulate => cariage
     @stations = []
-    # @pass_trains = []
-    # @cargo_trains = []
     @trains = []
     @routes = []
     @pass_carriages = []
     @cargo_carriages = []
+    @carriages = []
   end
 
   def start
@@ -295,7 +295,7 @@ class Menu
 
   def trains_list
     puts 'Trains:'
-    @trains.each { |train| puts "#{train.number}" }
+    @trains.each { |train| puts "#{train.number} - #{train.type}" }
   end
 
   def pass_trains_list
