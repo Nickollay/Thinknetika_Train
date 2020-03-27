@@ -18,8 +18,7 @@ class Menu
     @stations = []
     @trains = []
     @routes = []
-    @pass_carriages = []
-    @cargo_carriages = []
+    # @cargo_carriages = []
     @carriages = []
   end
 
@@ -106,7 +105,8 @@ class Menu
     puts 'Enter: 2, to look at created routes.'
     puts 'Enter: 3, to look at created trains.'
     puts 'Enter: 4, to look at trains on station.'
-    puts 'Enter: 5, to go to the main menu.'
+    puts 'Enter: 5, to look at created carriages.'
+    puts 'Enter: 6, to go to the main menu.'
     puts 'Enter: exit, to exit.'
     case input
     when '1'
@@ -118,6 +118,9 @@ class Menu
     when '4'
       show_trains_on_current_station
     when '5'
+      passenger_carriages_list
+      cargo_carriages_list
+    when '6'
       menu
     when 'exit'
       exit(0)
@@ -190,11 +193,11 @@ class Menu
     case(input)
     when '1'
       puts 'Enter: passenger carriage number.'
-      @pass_carriages << PassengerCarriage.new(input)
+      @carriages << PassengerCarriage.new(input)
       puts "Passenger carriage #{@input} was created."
     when '2'
       puts 'Enter: cargo carriage number.'
-      @cargo_carriages << CargoCarriage.new(input)
+      @carriages << CargoCarriage.new(input)
       puts "Cargo carriage #{@input} was created."
     when '3'
       menu_1
@@ -312,12 +315,14 @@ class Menu
 
   def passenger_carriages_list
     puts 'Passenger carriages:'
-    @pass_carriages.each { |carriage| puts "#{@pass_carriages.index(carriage) + 1}: #{carriage.number}"}
+    pass_carriages = @carriages.select { |carriage| carriage.type == 'pass'}
+    pass_carriages.each { |carriage| puts "#{carriage.number}" }
   end
 
   def cargo_carriages_list
     puts 'Cargo carriages:'
-    @cargo_carriages.each { |carriage| puts "#{@cargo_carriages.index(carriage) + 1}: #{carriage.number}"}
+    cargo_carriages = @carriages.select { |carriage| carriage.type == 'cargo'}
+    cargo_carriages.each { |carriage| puts "#{carriage.number}" }
   end
 
   def train_carriages_list
@@ -423,13 +428,15 @@ class Menu
     if !@trains
       puts 'Firstly create some train!'
       menu_create_train
+      @train = @trains[0]
+      puts "Train #{@trains[0]} was chosen."
     elsif @trains.select { |train| train.type == type }.empty?
       puts "Firstly create some #{type} train."
       menu_create_train
+      choose_train(type)
     else
       puts 'Enter train number.'
       input
-      # valid_input? should  input == train number by type
       input until train_by_number(@input)
       @train = train_by_number(@input)
       puts "Train #{@train.number} was chosen."
@@ -463,11 +470,11 @@ class Menu
     case input
     when '1'
       passenger_carriages_list
-      choose_carriage(@pass_carriages)
+      choose_carriage('pass')
       add_chosen_carriage
     when '2'
       cargo_carriages_list
-      choose_carriage(@cargo_carriages)
+      choose_carriage('cargo')
       add_chosen_carriage
     when '3'
       menu
@@ -479,21 +486,49 @@ class Menu
     end
   end
 
-  def choose_carriage(carriages_by_type)
-    if carriages_by_type.empty?
+  def choose_carriage(type)
+    if !@carriages
       puts 'Firstly create some carriage.'
       menu_create_carriage
-      @carriage_to_manipulate = carriages_by_type[0]
+      @carriage_to_manipulate = carriages[0]
+    elsif @carriages.select { |carriage| carriage.type == type}.empty?
+      puts "Firstly create some #{type} carriage"
+      menu_create_carriage
+      @carriage_to_manipulate = @carriages.find { |carriage| carriage.type == type }
+      puts "Carriage #{@carriage_to_manipulate.number} was chosen."
     else
-      puts 'Enter sequence number of carriage'
+      puts 'Enter carriage number:'
       input
-      input until valid_input?(carriages_by_type)
-      @carriage_to_manipulate = carriages_by_type[@input.to_i - 1]
+      input until carriage_by_number(@input)
+      @carriage_to_manipulate = carriage_by_number(@input)
       puts "Carriage #{@carriage_to_manipulate.number} was chosen."
     end
+  end
 
-    def add_chosen_carriage
+  def carriage_by_number(number)
+    @carriages.find { |carriage| carriage.number == number }
+  end
+
+  def add_chosen_carriage
+    if @carriage_to_manipulate.type != @train.type
+    puts "Invalid type of carriage!"
+    puts "Choose another carriage or train."
+    menu_add_carriage
+    elsif @train && @carriage_to_manipulate
       @train.add_carriage(@carriage_to_manipulate)
+      puts "Carriage #{@carriage_to_manipulate.number} added to the train #{@train.number}."
+    elsif !@train
+      puts 'Firstly choose some train.'
+      menu_choose_train
+      add_chosen_carriage
+    elsif !@carriage_to_manipulate
+      puts 'Firstly choose some carriage.'
+      menu_add_carriage
+
+    elsif @speed > 0
+      puts 'Firstly stop the train.'
+    else
+      puts 'Invalid type of carriage.'
     end
   end
 

@@ -13,11 +13,6 @@ class Train
     if @speed.zero? && (carriage.type == self.type)
       @carriages ||= Array.new
       @carriages << carriage
-      puts "Carriage #{carriage.number} added to the train #{self.number}."
-    elsif @speed > 0
-      puts 'Firstly stop the train.'
-    else
-      puts 'Invalid type of carriage.'
     end
   end
 
