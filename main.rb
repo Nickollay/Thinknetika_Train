@@ -10,15 +10,12 @@ require_relative 'route'
 # !!!!!!!!!!!!!!Take every puts from other classes into Menu class!!!!!!!!!!!!
 class Menu
   def initialize
-    # change pass and cargo into cariages
-    # change some methods in code add select if nessesery
     # delete empty initializations from def ini
     # change validation where .empty?
     # cariage_to_manipulate => cariage
     @stations = []
     @trains = []
     @routes = []
-    # @cargo_carriages = []
     @carriages = []
   end
 
@@ -490,18 +487,18 @@ class Menu
     if !@carriages
       puts 'Firstly create some carriage.'
       menu_create_carriage
-      @carriage_to_manipulate = carriages[0]
+      @carriage = carriages[0]
     elsif @carriages.select { |carriage| carriage.type == type}.empty?
       puts "Firstly create some #{type} carriage"
       menu_create_carriage
-      @carriage_to_manipulate = @carriages.find { |carriage| carriage.type == type }
-      puts "Carriage #{@carriage_to_manipulate.number} was chosen."
+      @carriage = @carriages.find { |carriage| carriage.type == type }
+      puts "Carriage #{@carriage.number} was chosen."
     else
       puts 'Enter carriage number:'
       input
       input until carriage_by_number(@input)
-      @carriage_to_manipulate = carriage_by_number(@input)
-      puts "Carriage #{@carriage_to_manipulate.number} was chosen."
+      @carriage = carriage_by_number(@input)
+      puts "Carriage #{@carriage.number} was chosen."
     end
   end
 
@@ -510,18 +507,18 @@ class Menu
   end
 
   def add_chosen_carriage
-    if @carriage_to_manipulate.type != @train.type
+    if @carriage.type != @train.type
     puts "Invalid type of carriage!"
     puts "Choose another carriage or train."
     menu_add_carriage
-    elsif @train && @carriage_to_manipulate
-      @train.add_carriage(@carriage_to_manipulate)
-      puts "Carriage #{@carriage_to_manipulate.number} added to the train #{@train.number}."
+    elsif @train && @carriage
+      @train.add_carriage(@carriage)
+      puts "Carriage #{@carriage.number} added to the train #{@train.number}."
     elsif !@train
       puts 'Firstly choose some train.'
       menu_choose_train
       add_chosen_carriage
-    elsif !@carriage_to_manipulate
+    elsif !@carriage
       puts 'Firstly choose some carriage.'
       menu_add_carriage
 
@@ -534,7 +531,7 @@ class Menu
 
   def menu_delete_carriage
     choose_carriage(@train.carriages)
-    @train.delete_carriage(@carriage_to_manipulate)
+    @train.delete_carriage(@carriage)
   end
   def menu_set_speed
     puts 'Enter number of speed from 0 to 100 in km/h to set to the train.'
