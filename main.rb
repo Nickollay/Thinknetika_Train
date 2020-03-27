@@ -253,14 +253,14 @@ class Menu
     when '4'
       menu_set_speed
     when '5'
-      menu_set_route  until @train_to_manipulate.current_route
+      menu_set_route  until @train.current_route
       menu_go_next_station
     when '6'
-      menu_set_route until @train_to_manipulate.current_route
+      menu_set_route until @train.current_route
       menu_go_previous_station
     when '7'
-      @train_to_manipulate.speed = 0
-      puts "Speed of the train #{@train_to_manipulate.number} now is 0 km/h. "
+      @train.speed = 0
+      puts "Speed of the train #{@train.number} now is 0 km/h. "
     when '8'
       menu
     when '9'
@@ -321,8 +321,8 @@ class Menu
   end
 
   def train_carriages_list
-    puts "Carriages of the train #{@train_to_manipulate.number}"
-    @train_to_manipulate.carriages.each { |carriage| puts "#{@train_to_manipulate.carriages.index(carriage) + 1}: #{carriage.number}"}
+    puts "Carriages of the train #{@train.number}"
+    @train.carriages.each { |carriage| puts "#{@train.carriages.index(carriage) + 1}: #{carriage.number}"}
   end
 
   def route_stations_list
@@ -431,8 +431,8 @@ class Menu
       input
       # valid_input? should  input == train number by type
       input until train_by_number(@input)
-      @train_to_manipulate = train_by_number(@input)
-      puts "Train #{@train_to_manipulate.number} was chosen."
+      @train = train_by_number(@input)
+      puts "Train #{@train.number} was chosen."
     end
   end
 
@@ -449,8 +449,8 @@ class Menu
       puts 'Enter sequence number of route.'
       input
       input until valid_input?(@routes)
-      @train_to_manipulate.set_current_route(@routes[@input.to_i - 1])
-      puts "The route #{@routes[@input.to_i - 1].to_s} was set to the train #{@train_to_manipulate.number}"
+      @train.set_current_route(@routes[@input.to_i - 1])
+      puts "The route #{@routes[@input.to_i - 1].to_s} was set to the train #{@train.number}"
     end
   end
 
@@ -493,30 +493,30 @@ class Menu
     end
 
     def add_chosen_carriage
-      @train_to_manipulate.add_carriage(@carriage_to_manipulate)
+      @train.add_carriage(@carriage_to_manipulate)
     end
   end
 
   def menu_delete_carriage
-    choose_carriage(@train_to_manipulate.carriages)
-    @train_to_manipulate.delete_carriage(@carriage_to_manipulate)
+    choose_carriage(@train.carriages)
+    @train.delete_carriage(@carriage_to_manipulate)
   end
   def menu_set_speed
     puts 'Enter number of speed from 0 to 100 in km/h to set to the train.'
     input
     input until ((@input.to_i >= 0) && (@input.to_i <= 100))
-    @train_to_manipulate.speed = @input.to_i
-    puts "The train #{@train_to_manipulate.number} go now #{@train_to_manipulate.speed} km/h."
+    @train.speed = @input.to_i
+    puts "The train #{@train.number} go now #{@train.speed} km/h."
   end
 
   def menu_go_next_station
-    @train_to_manipulate.go_next_station
-    puts "Train #{@train_to_manipulate.number} now on the #{@train_to_manipulate.current_station.name} station."
+    @train.go_next_station
+    puts "Train #{@train.number} now on the #{@train.current_station.name} station."
   end
 
   def menu_go_previous_station
-    @train_to_manipulate.go_previous_station
-    puts "Train #{@train_to_manipulate.number} now on the #{@train_to_manipulate.current_station.name} station."
+    @train.go_previous_station
+    puts "Train #{@train.number} now on the #{@train.current_station.name} station."
   end
 end
 
