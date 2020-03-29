@@ -9,6 +9,12 @@ class Train
   def initialize(number)
     @number = number.to_s
     @speed = 0
+    @@all ||= Array.new
+    @@all << self
+  end
+
+  def self.find(number)
+    @@all.find { |train| train.number == number }
   end
 
   def add_carriage(carriage)
@@ -67,6 +73,8 @@ class Train
     @current_station = self.previous_station
     @current_station.add_train(self)
   end
+
+
 
   private
 

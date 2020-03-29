@@ -433,14 +433,10 @@ class Menu
     else
       puts 'Enter train number.'
       input
-      input until train_by_number(@input)
-      @train = train_by_number(@input)
+      input until Train.find(@input)
+      @train = Train.find(@input)
       puts "Train #{@train.number} was chosen."
     end
-  end
-
-  def train_by_number(number)
-    @trains.find { |train| train.number == number }
   end
 
   def menu_set_route
