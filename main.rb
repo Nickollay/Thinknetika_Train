@@ -7,7 +7,7 @@ require_relative 'passenger_carriage'
 require_relative 'station'
 require_relative 'route'
 
-# !!!!!!!!!!!!!!Take every puts from other classes into Menu class!!!!!!!!!!!!
+# !!!!!!!!!!!!!!Sooner, Take every puts from other classes into Menu class!!!!!!!!!!!!
 class Menu
   def initialize
   end

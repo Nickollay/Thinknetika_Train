@@ -1,11 +1,13 @@
+require_relative './manufacturer'
+
 class Train
+  include Manufacturer
   attr_accessor :speed
   attr_reader :carriages, :current_route, :number, :type
 
 #number == string, type == 'pass' or 'cargo'
   def initialize(number)
     @number = number.to_s
-    #@type = "type don't defined yet"
     @speed = 0
   end
 
