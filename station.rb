@@ -1,7 +1,14 @@
 class Station
   attr_reader :trains, :name
+
   def initialize(name)
     @name = name
+    @@all ||= Array.new
+    @@all << self
+  end
+
+  def self.all
+    @@all
   end
 
   def add_train(train)
