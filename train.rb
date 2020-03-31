@@ -11,8 +11,9 @@ class Train
   def initialize(number)
     @number = number.to_s
     @speed = 0
-    @@all ||= Array.new
-    @@all << self
+    # next two lines should be in main
+    # @@all ||= Array.new
+    # @@all << self
   end
 
   def self.find(number)
