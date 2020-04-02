@@ -9,9 +9,10 @@ class Train
 
 #number == string, type == 'pass' or 'cargo'
   def initialize(number)
+    super()
     @number = number.to_s
     @speed = 0
-    register_instance
+    #register_instance
     # next two lines should be in main?
     @@all ||= Array.new
     @@all << self

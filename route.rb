@@ -3,6 +3,7 @@ class Route
   attr_reader :stations
 
   def initialize(start_station, end_station)
+    super()
     @stations = [start_station, end_station]
   end
 
