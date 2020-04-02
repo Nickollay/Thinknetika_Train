@@ -5,33 +5,22 @@ module InstanceCounter
   end
 
   module ClassMethods
-    # Методы класса:
-    #  - instances, который возвращает кол-во экземпляров данного класса
-    #
     def instances
-      self.instances ||= 0
+      @instances ||= 0
     end
 
-    # def initialize
-    #
-    #   @instances += 1
-    # end
-
-    #private
+    def add_instance
+      @instances ||= 0
+      @instances += 1
+    end
   end
 
   module InstanceMethods
-    # Инастанс-методы:
-    #     - register_instance, который увеличивает счетчик кол-ва экземпляров класса
-    # и который можно вызвать из конструктора.
-    #     При этом данный метод не должен быть публичным.
-    # Подключить этот модуль в классы поезда, маршрута и станции.
-    #
-      # Примечание: инстансы подклассов могут считатья по отдельности,
-      # не увеличивая счетчик инстансев базового класса.
-    #
 
+    private
+
+    def register_instance
+      self.class.add_instance
+    end
   end
-
-
 end
