@@ -17,10 +17,6 @@ module InstanceCounter
 
   module InstanceMethods
 
-    def initialize
-      register_instance
-    end
-
     private
 
     def register_instance

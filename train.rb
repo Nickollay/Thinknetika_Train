@@ -9,7 +9,7 @@ class Train
 
 #number == string, type == 'pass' or 'cargo'
   def initialize(number)
-    super()
+    register_instance
     @number = number.to_s
     @speed = 0
     #register_instance

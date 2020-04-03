@@ -3,7 +3,7 @@ class Station
   attr_reader :trains, :name
 
   def initialize(name)
-    super()
+    register_instance
     @name = name
     @@all ||= Array.new
     @@all << self
