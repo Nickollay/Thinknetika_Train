@@ -7,15 +7,24 @@ class Train
   attr_accessor :speed
   attr_reader :carriages, :current_route, :number, :type
 
+  NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
+
 #number == string, type == 'pass' or 'cargo'
   def initialize(number)
     register_instance
     @number = number.to_s
     @speed = 0
-    #register_instance
+    validate!
     # next two lines should be in main?
     @@all ||= Array.new
     @@all << self
+  end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
   end
 
   def self.find(number)
@@ -82,6 +91,12 @@ class Train
 
 
   private
+
+  def validate!
+    raise 'Number is too short!' if number.length < 5
+    raise 'Speed should be between 0 and 100.' unless (0..100).include?(speed)
+    raise 'Number format: three digits or characters optional dash and two more numbers or characters.' if number !~ NUMBER_FORMAT
+  end
 
 # current_index private, 'cause used only by methods of instance.
   def current_index
