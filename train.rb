@@ -1,5 +1,5 @@
 require_relative './manufacturer'
-require_relative './instance_counter'
+#require_relative './instance_counter'
 
 class Train
   include Manufacturer
@@ -15,8 +15,7 @@ class Train
     @number = number.to_s
     @speed = 0
     validate!
-    # next two lines should be in main?
-    @@all ||= Array.new
+    @@all ||= []
     @@all << self
   end
 
@@ -34,7 +33,7 @@ class Train
   def add_carriage(carriage)
       speed_zero!
       type_carriage_validate!(carriage)
-      @carriages ||= Array.new
+      @carriages ||= []
       @carriages << carriage
   end
 

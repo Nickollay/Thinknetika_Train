@@ -1,4 +1,4 @@
-require_relative './instance_counter'
+#require_relative './instance_counter'
 class Station
   include InstanceCounter
   attr_reader :trains, :name
@@ -9,7 +9,7 @@ class Station
     register_instance
     @name = name
     validate!
-    @@all ||= Array.new
+    @@all ||= []
     @@all << self
   end
 
@@ -25,7 +25,7 @@ class Station
   end
 
   def add_train(train)
-    @trains ||= Array.new
+    @trains ||= []
     @trains << train
   end
 

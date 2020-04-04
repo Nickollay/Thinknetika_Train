@@ -1,3 +1,4 @@
+require_relative './instance_counter'
 require_relative 'train'
 require_relative 'passenger_train'
 require_relative 'cargo_train'
@@ -127,7 +128,7 @@ class Menu
   def menu_create_station
       puts "Enter: station's name."
       input
-      @stations ||= Array.new
+      @stations ||= []
       @stations << Station.new(@input)
     rescue StandardError => e
       puts e.message
@@ -150,7 +151,7 @@ class Menu
         puts 'Enter: sequence number of end station.'
         input until valid_input?(@stations) && @stations[@input.to_i - 1] != start_station
         end_station = @stations[@input.to_i - 1]
-        @routes ||= Array.new
+        @routes ||= []
         @routes << Route.new(start_station, end_station)
       rescue StandardError => e
         puts e.message
@@ -171,7 +172,7 @@ class Menu
     when '1'
       begin
         puts "Enter: train's number:"
-        @trains ||= Array.new
+        @trains ||= []
         @trains << PassengerTrain.new(input)
       rescue StandardError => e
         puts e.message
@@ -182,7 +183,7 @@ class Menu
     when '2'
       begin
         puts "Enter: train's number:"
-        @trains ||= Array.new
+        @trains ||= []
         @trains << CargoTrain.new(input)
       rescue StandardError => e
         puts e.message
@@ -210,7 +211,7 @@ class Menu
     when '1'
       begin
         puts 'Enter: passenger carriage number.'
-        @carriages ||= Array.new
+        @carriages ||= []
         @carriages << PassengerCarriage.new(input)
       rescue StandardError => e
         puts e.message
@@ -221,7 +222,7 @@ class Menu
     when '2'
       begin
         puts 'Enter: cargo carriage number.'
-        @carriages ||= Array.new
+        @carriages ||= []
         @carriages << CargoCarriage.new(input)
       rescue StandardError => e
         puts e.message
