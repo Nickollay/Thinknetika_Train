@@ -121,34 +121,43 @@ class Menu
   end
 
   def input
-    @input = gets.chomp.downcase
+    @input = gets.chomp
   end
 
   def menu_create_station
-
-    puts "Enter: station's name."
-    input
-    @stations ||= Array.new
-    @stations << Station.new(@input)
-    puts "Station #{@input} was created."
+      puts "Enter: station's name."
+      input
+      @stations ||= Array.new
+      @stations << Station.new(@input)
+    rescue StandardError => e
+      puts e.message
+      retry
+    ensure
+      puts "Station #{@input} was created."
   end
 
   def menu_create_route
-    if @stations.size < 2
+    if @stations == nil || @stations.size < 2
       puts 'Firstly create at least 2 stations.'
       menu_create_station
     else
-      stations_list
-      puts 'Enter: sequence number of start station.'
-      input
-      input until valid_input?(@stations)
-      start_station = @stations[@input.to_i - 1]
-      puts 'Enter: sequence number of end station.'
-      input until valid_input?(@stations) && @stations[@input.to_i - 1] != start_station
-      end_station = @stations[@input.to_i - 1]
-      @routes ||= Array.new
-      @routes << Route.new(start_station, end_station)
-      puts 'New route was created.'
+      begin
+        stations_list
+        puts 'Enter: sequence number of start station.'
+        input
+        input until valid_input?(@stations)
+        start_station = @stations[@input.to_i - 1]
+        puts 'Enter: sequence number of end station.'
+        input until valid_input?(@stations) && @stations[@input.to_i - 1] != start_station
+        end_station = @stations[@input.to_i - 1]
+        @routes ||= Array.new
+        @routes << Route.new(start_station, end_station)
+      rescue StandardError => e
+        puts e.message
+        retry
+      ensure
+        puts 'New route was created.'
+      end
     end
   end
 
@@ -160,15 +169,27 @@ class Menu
     puts 'Enter: exit, to exit.'
     case input
     when '1'
-    puts "Enter: train's number:"
-    @trains ||= Array.new
-    @trains << PassengerTrain.new(input)
-    puts "Passenger train #{@input} was created."
+      begin
+        puts "Enter: train's number:"
+        @trains ||= Array.new
+        @trains << PassengerTrain.new(input)
+      rescue StandardError => e
+        puts e.message
+        retry
+      ensure
+        puts "Passenger train #{@input} was created."
+      end
     when '2'
-    puts "Enter: train's number:"
-    @trains ||= Array.new
-    @trains << CargoTrain.new(input)
-    puts "Cargo train #{@input} was created."
+      begin
+        puts "Enter: train's number:"
+        @trains ||= Array.new
+        @trains << CargoTrain.new(input)
+      rescue StandardError => e
+        puts e.message
+        retry
+      ensure
+        puts "Cargo train #{@input} was created."
+      end
     when '3'
     menu_1
     when '4'
@@ -187,15 +208,26 @@ class Menu
     puts 'Enter: exit to exit.'
     case(input)
     when '1'
-      puts 'Enter: passenger carriage number.'
-      @carriages ||= Array.new
-      @carriages << PassengerCarriage.new(input)
-      puts "Passenger carriage #{@input} was created."
+      begin
+        puts 'Enter: passenger carriage number.'
+        @carriages ||= Array.new
+        @carriages << PassengerCarriage.new(input)
+      rescue StandardError => e
+        puts e.message
+        retry
+      ensure
+        puts "Passenger carriage #{@input} was created."
+      end
     when '2'
-      puts 'Enter: cargo carriage number.'
-      @carriages ||= Array.new
-      @carriages << CargoCarriage.new(input)
-      puts "Cargo carriage #{@input} was created."
+      begin
+        puts 'Enter: cargo carriage number.'
+        @carriages ||= Array.new
+        @carriages << CargoCarriage.new(input)
+      rescue StandardError => e
+        puts e.message
+      ensure
+        puts "Cargo carriage #{@input} was created."
+      end
     when '3'
       menu_1
     when 'exit'
@@ -502,11 +534,7 @@ class Menu
   end
 
   def add_chosen_carriage
-    if @carriage.type != @train.type
-    puts "Invalid type of carriage!"
-    puts "Choose another carriage or train."
-    menu_add_carriage
-    elsif @train && @carriage
+    if @train && @carriage
       @train.add_carriage(@carriage)
       puts "Carriage #{@carriage.number} added to the train #{@train.number}."
     elsif !@train
@@ -516,18 +544,19 @@ class Menu
     elsif !@carriage
       puts 'Firstly choose some carriage.'
       menu_add_carriage
-
-    elsif @speed > 0
-      puts 'Firstly stop the train.'
-    else
-      puts 'Invalid type of carriage.'
     end
+    rescue StandardError => e
+      puts e.message
   end
 
   def menu_delete_carriage
-    choose_carriage(@train.carriages)
+    choose_carriage(@train.type)
     @train.delete_carriage(@carriage)
+    puts "Carriage #{@carriage.number} was deleted from the train #{@train.number}"
+  rescue StandardError => e
+    puts e.message
   end
+
   def menu_set_speed
     puts 'Enter number of speed from 0 to 100 in km/h to set to the train.'
     input
@@ -539,11 +568,15 @@ class Menu
   def menu_go_next_station
     @train.go_next_station
     puts "Train #{@train.number} now on the #{@train.current_station.name} station."
+  rescue StandardError => e
+    puts e.message
   end
 
   def menu_go_previous_station
     @train.go_previous_station
     puts "Train #{@train.number} now on the #{@train.current_station.name} station."
+  rescue StandardError => e
+    puts e.message
   end
 end
 

@@ -1,3 +1,4 @@
+require_relative './instance_counter'
 class Station
   include InstanceCounter
   attr_reader :trains, :name

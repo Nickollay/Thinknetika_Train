@@ -32,19 +32,15 @@ class Train
   end
 
   def add_carriage(carriage)
-    if @speed.zero? && (carriage.type == self.type)
+      speed_zero!
+      type_carriage_validate!(carriage)
       @carriages ||= Array.new
       @carriages << carriage
-    end
   end
 
   def delete_carriage(carriage)
-    if @speed.zero?
-      @carriages.delete(carriage)
-      puts "Carriage #{carriage.number} was deleted from the train #{self.number}"
-    else
-      puts 'Firstly stop the train.'
-    end
+    speed_zero!
+    @carriages.delete(carriage)
   end
 
   def set_current_route(route)
@@ -60,7 +56,7 @@ class Train
 
   def next_station
     if current_index == (@current_route.stations.size - 1)
-      puts 'The train is already at the end station!'
+      extreme_station_valid!('end')
       @next_station = @current_route.stations[-1]
     else
       @next_station = self.current_route.stations[(current_index + 1)]
@@ -69,7 +65,7 @@ class Train
 
   def previous_station
     if current_index.zero?
-      puts 'The train is already at the begining station!'
+      extreme_station_valid!('beginning')
       @previous_station = current_route.stations[0]
     else
       @previous_station = current_route.stations[current_index - 1]
@@ -88,14 +84,24 @@ class Train
     @current_station.add_train(self)
   end
 
-
-
   private
 
   def validate!
     raise 'Number is too short!' if number.length < 5
     raise 'Speed should be between 0 and 100.' unless (0..100).include?(speed)
     raise 'Number format: three digits or characters optional dash and two more numbers or characters.' if number !~ NUMBER_FORMAT
+  end
+
+  def speed_zero!
+    raise 'Speed should be zero!' unless @speed.zero?
+  end
+
+  def type_carriage_validate!(carriage)
+    raise 'Invalid type of carriage! Choose another carriage or train.' unless carriage.type == self.type
+  end
+
+  def extreme_station_valid!(extreme)
+    raise "The train is already at the #{extreme} station!"
   end
 
 # current_index private, 'cause used only by methods of instance.
