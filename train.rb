@@ -43,6 +43,11 @@ class Train
     @carriages.delete(carriage)
   end
 
+  def number_of_carriages
+    @carriages ||= []
+    @carriages.count
+  end
+
   def set_current_route(route)
     @current_route = route
     @current_index = 0

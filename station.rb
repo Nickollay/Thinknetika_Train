@@ -1,4 +1,3 @@
-#require_relative './instance_counter'
 class Station
   include InstanceCounter
   attr_reader :trains, :name
@@ -29,10 +28,19 @@ class Station
     @trains << train
   end
 
+  # def to_s
+  #   @trains.each {
+  #     |train| puts "#{self.name} station: #{train.number}, #{train.type}"
+  #   }
+  # end
+
+  def each_train(&block)
+    @trains.map(&block)
+  end
+
   def to_s
-    @trains.each {
-      |train| puts "#{self.name} station: #{train.number}, #{train.type}"
-    }
+    train = Proc.new { |train| "Number: #{train.number}, type: #{train.type}, carriages: #{train.number_of_carriages}."}
+    each_train(&train)
   end
 
   def show_trains_on_station_by_type(by_type)
