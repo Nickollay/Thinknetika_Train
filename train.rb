@@ -9,13 +9,14 @@ class Train
 
   NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
 
+  @@all = []
+
 #number == string, type == 'pass' or 'cargo'
   def initialize(number)
     register_instance
     @number = number.to_s
     @speed = 0
     validate!
-    @@all ||= []
     @@all << self
   end
 
