@@ -211,23 +211,33 @@ class Menu
     when '1'
       begin
         puts 'Enter: passenger carriage number.'
+        input
+        number = @input
+        puts 'enter: number of seats:'
+        input
+        seats = @input.to_i
         @carriages ||= []
-        @carriages << PassengerCarriage.new(input)
+        @carriages << PassengerCarriage.new(number, seats)
       rescue StandardError => e
         puts e.message
         retry
       ensure
-        puts "Passenger carriage #{@input} was created."
+        puts "Passenger carriage #{number} with #{seats} was created."
       end
     when '2'
       begin
         puts 'Enter: cargo carriage number.'
+        input
+        number = @input
+        puts 'Enter: volume of seats.'
+        input
+        volume = @input
         @carriages ||= []
-        @carriages << CargoCarriage.new(input)
+        @carriages << CargoCarriage.new(number, volume)
       rescue StandardError => e
         puts e.message
       ensure
-        puts "Cargo carriage #{@input} was created."
+        puts "Cargo carriage #{number} with volume: #{volume} was created."
       end
     when '3'
       menu_1
@@ -318,45 +328,60 @@ class Menu
   def stations_list
     puts 'Stations:'
     @stations.each { |station| puts "#{@stations.index(station) + 1}: #{station.name}" }
+  rescue
+    puts 'Firstly create some station.'
   end
 
   def routes_list
     puts 'Routes:'
     @routes.each { |route| puts "#{@routes.index(route) + 1}: #{route.to_s}" }
+  rescue
+    puts 'Firstly create some route.'
   end
 
   def trains_list
-    puts 'Trains:'
     @trains.each { |train| puts "#{train.number} - #{train.type}" }
+  rescue
+    puts 'Firstly create some train.'
   end
 
   def pass_trains_list
     puts 'Passenger trains:'
     pass_trains = @trains.select { |train| train.type == 'pass' }
     pass_trains.each { |train| puts "#{train.number}" }
+  rescue
+    puts 'Firstly create some train.'
   end
 
   def cargo_trains_list
     puts 'Cargo trains:'
     cargo_trains = @trains.select { |train| train.type == 'cargo' }
     cargo_trains.each { |train| puts "#{train.number}" }
+  rescue
+    puts 'Firstly create some train.'
   end
 
   def passenger_carriages_list
     puts 'Passenger carriages:'
     pass_carriages = @carriages.select { |carriage| carriage.type == 'pass'}
     pass_carriages.each { |carriage| puts "#{carriage.number}" }
+  rescue
+    puts 'Firstly create some carriage.'
   end
 
   def cargo_carriages_list
     puts 'Cargo carriages:'
     cargo_carriages = @carriages.select { |carriage| carriage.type == 'cargo'}
     cargo_carriages.each { |carriage| puts "#{carriage.number}" }
+  rescue
+    puts 'Firstly create some carriage.'
   end
 
   def train_carriages_list
     puts "Carriages of the train #{@train.number}"
     @train.carriages.each { |carriage| puts "#{@train.carriages.index(carriage) + 1}: #{carriage.number}"}
+  rescue
+    puts 'Firstly add some carriage to the train.'
   end
 
   def route_stations_list
