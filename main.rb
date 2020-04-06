@@ -78,9 +78,11 @@ class Menu
     case input
     when '1'
       menu_manipulate_routes
-    when '2', '3'
+    when '2'
       menu_choose_train
       menu_manipulate_trains
+    when '3'
+      menu_manipulate_carriages
     when '4'
       menu
     when 'exit'
@@ -240,6 +242,7 @@ class Menu
         @carriages << CargoCarriage.new(number, volume)
       rescue StandardError => e
         puts e.message
+        retry
       ensure
         puts "Cargo carriage #{number} with volume: #{volume} was created."
       end
@@ -320,6 +323,53 @@ class Menu
     menu_manipulate_trains
   end
 
+  def menu_manipulate_carriages
+    puts 'Enter: 1, to add or delete a carriage to/from a train.'
+    puts 'Enter: 2, to take a seat in a passenger carriage.'
+    puts 'Enter: 3, to take volume of cargo carriage.'
+    puts 'Enter: 4, to go to the main menu.'
+    puts 'Enter: exit, to exit.'
+    case input
+    when '1'
+      menu_choose_train
+      menu_manipulate_trains
+    when '2'
+      passenger_carriages_list
+      choose_carriage('pass')
+      take_seat_of_chosen_carriage
+    when '3'
+      cargo_carriages_list
+      choose_carriage('cargo')
+      take_volume_of_chosen_carriage
+    when '4'
+      menu
+    when 'exit'
+      exit(0)
+    else
+      puts 'Invalid input!'
+    end
+    menu_manipulate_carriages
+  end
+
+  def take_seat_of_chosen_carriage
+    @carriage.take_seat
+  rescue StandardError => e
+    puts e.message
+    retry
+  ensure
+    puts "You've taken 1 seat in #{@carriage.number}."
+  end
+
+  def take_volume_of_chosen_carriage
+    puts 'Enter: number of volume, you want to take.'
+    @carriage.take_volume(input.to_i)
+  rescue StandardError => e
+    puts e.message
+    retry
+  ensure
+    puts "You've taken #{@input} volume of #{@carriage.number}."
+  end
+
   def valid_input?(arr)
     @input.to_i > 0 && @input.to_i <= arr.size
   end
@@ -368,7 +418,7 @@ class Menu
   def passenger_carriages_list
     puts 'Passenger carriages:'
     pass_carriages = @carriages.select { |carriage| carriage.type == 'pass'}
-    pass_carriages.each { |carriage| puts "#{carriage.number}" }
+    pass_carriages.each { |carriage| puts "Number: #{carriage.number}, free seats: #{carriage.free_seats}." }
   rescue
     puts 'Firstly create some carriage.'
   end
@@ -376,7 +426,7 @@ class Menu
   def cargo_carriages_list
     puts 'Cargo carriages:'
     cargo_carriages = @carriages.select { |carriage| carriage.type == 'cargo'}
-    cargo_carriages.each { |carriage| puts "#{carriage.number}" }
+    cargo_carriages.each { |carriage| puts "Number: #{carriage.number}, free_volume: #{carriage.free_volume}." }
   rescue
     puts 'Firstly create some carriage.'
   end

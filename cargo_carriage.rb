@@ -14,15 +14,15 @@ class CargoCarriage < Carriage
   end
 
   def take_volume(cargo)
-    validate_free_volume!
+    validate_free_volume!(cargo)
     @free_volume -= cargo
   end
 
   private
 
-  def validate_free_volume!
+  def validate_free_volume!(cargo)
     raise 'No free volume anymore!' if @free_volume == 0
-    raise 'There are not enough free volume!' if cargo > @free_volume
+    raise 'There are not enough volume!' if cargo > @free_volume
   end
 
   def validate!
