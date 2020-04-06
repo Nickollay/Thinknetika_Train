@@ -233,9 +233,9 @@ class Menu
         puts 'Enter: cargo carriage number.'
         input
         number = @input
-        puts 'Enter: volume of seats.'
+        puts 'Enter: volume of carriage.'
         input
-        volume = @input
+        volume = @input.to_i
         @carriages ||= []
         @carriages << CargoCarriage.new(number, volume)
       rescue StandardError => e
@@ -408,14 +408,11 @@ class Menu
       puts 'Enter sequence number of station'
       input until valid_input?(@stations)
       station_sequence_number = @input.to_i
-      puts "On current station #{@stations[station_sequence_number - 1].name}:"
+      puts "Trains on current station #{@stations[station_sequence_number - 1].name}:"
       if !@stations[station_sequence_number - 1].trains
-        puts '0 trains.'
+        puts 'there no train, yet.'
       else
-        puts "Passenger trains:"
-        puts @stations[station_sequence_number - 1].show_trains_on_station_by_type('pass').each.number
-        puts "Cargo trains on station:"
-        puts @stations[station_sequence_number - 1].show_trains_on_station_by_type('cargo').each.number
+        puts @stations[station_sequence_number - 1].to_s
       end
     end
   end
