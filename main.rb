@@ -97,7 +97,8 @@ class Menu
     puts 'Enter: 3, to look at created trains.'
     puts 'Enter: 4, to look at trains on station.'
     puts 'Enter: 5, to look at created carriages.'
-    puts 'Enter: 6, to go to the main menu.'
+    puts 'Enter: 6, to look at carriages of some train.'
+    puts 'Enter: 7, to go to the main menu.'
     puts 'Enter: exit, to exit.'
     case input
     when '1'
@@ -112,6 +113,9 @@ class Menu
       passenger_carriages_list
       cargo_carriages_list
     when '6'
+      menu_choose_train
+      carriages_of_train_list
+    when '7'
       menu
     when 'exit'
       exit(0)
@@ -380,6 +384,12 @@ class Menu
   def train_carriages_list
     puts "Carriages of the train #{@train.number}"
     @train.carriages.each { |carriage| puts "#{@train.carriages.index(carriage) + 1}: #{carriage.number}"}
+  rescue
+    puts 'Firstly add some carriage to the train.'
+  end
+
+  def carriages_of_train_list
+    puts @train.carriages_to_s
   rescue
     puts 'Firstly add some carriage to the train.'
   end
