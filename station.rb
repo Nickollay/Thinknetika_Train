@@ -34,8 +34,8 @@ class Station
   #   }
   # end
 
-  def each_train(&block)
-    @trains.map(&block)
+  def each_train
+    @trains.map { |train| yield(train) }
   end
 
   def to_s

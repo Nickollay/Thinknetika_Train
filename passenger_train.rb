@@ -8,6 +8,6 @@ class PassengerTrain < Train
     carriage = proc do |carriage|
       "Carriage number: #{carriage.number}, type: #{carriage.type}, free seats: #{carriage.free_seats}, taken seats: #{carriage.taken_seats}."
     end
-    each_carriage(&carriage)
+    puts each_carriage(&carriage)
   end
  end

@@ -48,8 +48,8 @@ class Train
     @carriages.count
   end
 
-  def each_carriage(&block)
-    @carriages.map(&block)
+  def each_carriage
+    @carriages.map { |carriage| yield(carriage) }
   end
 
   def set_current_route(route)
