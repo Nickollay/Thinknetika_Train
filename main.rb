@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './instance_counter'
 require_relative 'train'
 require_relative 'passenger_train'
@@ -10,8 +12,7 @@ require_relative 'route'
 
 # !!!!!!!!!!!!!!Sooner, Take every puts from other classes into Menu class!!!!!!!!!!!!
 class Menu
-  def initialize
-  end
+  def initialize; end
 
   def start
     puts 'Hello!'
@@ -132,19 +133,19 @@ class Menu
   end
 
   def menu_create_station
-      puts "Enter: station's name."
-      input
-      @stations ||= []
-      @stations << Station.new(@input)
-    rescue StandardError => e
-      puts e.message
-      retry
-    ensure
-      puts "Station #{@input} was created."
+    puts "Enter: station's name."
+    input
+    @stations ||= []
+    @stations << Station.new(@input)
+  rescue StandardError => e
+    puts e.message
+    retry
+  ensure
+    puts "Station #{@input} was created."
   end
 
   def menu_create_route
-    if @stations == nil || @stations.size < 2
+    if @stations.nil? || @stations.size < 2
       puts 'Firstly create at least 2 stations.'
       menu_create_station
     else
@@ -198,7 +199,7 @@ class Menu
         puts "Cargo train #{@input} was created."
       end
     when '3'
-    menu_1
+      menu_1
     when '4'
       menu
     when 'exit'
@@ -213,7 +214,7 @@ class Menu
     puts 'Enter: 2, to create cargo carriage.'
     puts 'Enter: 3, to go previous menu.'
     puts 'Enter: exit to exit.'
-    case(input)
+    case input
     when '1'
       begin
         puts 'Enter: passenger carriage number.'
@@ -303,7 +304,7 @@ class Menu
     when '4'
       menu_set_speed
     when '5'
-      menu_set_route  until @train.current_route
+      menu_set_route until @train.current_route
       menu_go_next_station
     when '6'
       menu_set_route until @train.current_route
@@ -382,71 +383,71 @@ class Menu
   def stations_list
     puts 'Stations:'
     @stations.each { |station| puts "#{@stations.index(station) + 1}: #{station.name}" }
-  rescue
+  rescue StandardError
     puts 'Firstly create some station.'
   end
 
   def routes_list
     puts 'Routes:'
-    @routes.each { |route| puts "#{@routes.index(route) + 1}: #{route.to_s}" }
-  rescue
+    @routes.each { |route| puts "#{@routes.index(route) + 1}: #{route}" }
+  rescue StandardError
     puts 'Firstly create some route.'
   end
 
   def trains_list
     @trains.each { |train| puts "#{train.number} - #{train.type}" }
-  rescue
+  rescue StandardError
     puts 'Firstly create some train.'
   end
 
   def pass_trains_list
     puts 'Passenger trains:'
     pass_trains = @trains.select { |train| train.type == 'pass' }
-    pass_trains.each { |train| puts "#{train.number}" }
-  rescue
+    pass_trains.each { |train| puts train.number.to_s }
+  rescue StandardError
     puts 'Firstly create some train.'
   end
 
   def cargo_trains_list
     puts 'Cargo trains:'
     cargo_trains = @trains.select { |train| train.type == 'cargo' }
-    cargo_trains.each { |train| puts "#{train.number}" }
-  rescue
+    cargo_trains.each { |train| puts train.number.to_s }
+  rescue StandardError
     puts 'Firstly create some train.'
   end
 
   def passenger_carriages_list
     puts 'Passenger carriages:'
-    pass_carriages = @carriages.select { |carriage| carriage.type == 'pass'}
+    pass_carriages = @carriages.select { |carriage| carriage.type == 'pass' }
     pass_carriages.each { |carriage| puts "Number: #{carriage.number}, free seats: #{carriage.free_seats}." }
-  rescue
+  rescue StandardError
     puts 'Firstly create some carriage.'
   end
 
   def cargo_carriages_list
     puts 'Cargo carriages:'
-    cargo_carriages = @carriages.select { |carriage| carriage.type == 'cargo'}
+    cargo_carriages = @carriages.select { |carriage| carriage.type == 'cargo' }
     cargo_carriages.each { |carriage| puts "Number: #{carriage.number}, free_volume: #{carriage.free_volume}." }
-  rescue
+  rescue StandardError
     puts 'Firstly create some carriage.'
   end
 
   def train_carriages_list
     puts "Carriages of the train #{@train.number}"
-    @train.carriages.each { |carriage| puts "#{@train.carriages.index(carriage) + 1}: #{carriage.number}"}
-  rescue
+    @train.carriages.each { |carriage| puts "#{@train.carriages.index(carriage) + 1}: #{carriage.number}" }
+  rescue StandardError
     puts 'Firstly add some carriage to the train.'
   end
 
   def carriages_of_train_list
     puts @train.carriages_to_s
-  rescue
+  rescue StandardError
     puts 'Firstly add some carriage to the train.'
   end
 
   def route_stations_list
-    puts "Stations of the current route:"
-    @routes[@input.to_i - 1].each { |station| puts "#{@routes[@input.to_i - 1].index(station) + 1}: #{station.name}"}
+    puts 'Stations of the current route:'
+    @routes[@input.to_i - 1].each { |station| puts "#{@routes[@input.to_i - 1].index(station) + 1}: #{station.name}" }
   end
 
   def show_trains_on_current_station
@@ -564,7 +565,7 @@ class Menu
       input
       input until valid_input?(@routes)
       @train.set_current_route(@routes[@input.to_i - 1])
-      puts "The route #{@routes[@input.to_i - 1].to_s} was set to the train #{@train.number}"
+      puts "The route #{@routes[@input.to_i - 1]} was set to the train #{@train.number}"
     end
   end
 
@@ -598,7 +599,7 @@ class Menu
       puts 'Firstly create some carriage.'
       menu_create_carriage
       @carriage = carriages[0]
-    elsif @carriages.select { |carriage| carriage.type == type}.empty?
+    elsif @carriages.select { |carriage| carriage.type == type }.empty?
       puts "Firstly create some #{type} carriage"
       menu_create_carriage
       @carriage = @carriages.find { |carriage| carriage.type == type }
@@ -628,8 +629,8 @@ class Menu
       puts 'Firstly choose some carriage.'
       menu_add_carriage
     end
-    rescue StandardError => e
-      puts e.message
+  rescue StandardError => e
+    puts e.message
   end
 
   def menu_delete_carriage
@@ -643,7 +644,7 @@ class Menu
   def menu_set_speed
     puts 'Enter number of speed from 0 to 100 in km/h to set to the train.'
     input
-    input until ((@input.to_i >= 0) && (@input.to_i <= 100))
+    input until (@input.to_i >= 0) && (@input.to_i <= 100)
     @train.speed = @input.to_i
     puts "The train #{@train.number} go now #{@train.speed} km/h."
   end

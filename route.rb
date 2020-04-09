@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Route
   include InstanceCounter
   attr_reader :stations
@@ -11,7 +13,7 @@ class Route
   def valid?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 
@@ -24,7 +26,7 @@ class Route
   end
 
   def to_s
-    @stations.map { |station| station.name }
+    @stations.map(&:name)
   end
 
   private

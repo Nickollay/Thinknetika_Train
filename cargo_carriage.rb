@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CargoCarriage < Carriage
   attr_reader :free_volume, :taken_volume
 

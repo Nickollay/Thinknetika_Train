@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'carriage'
 class PassengerCarriage < Carriage
   attr_reader :free_seats, :taken_seats, :seats

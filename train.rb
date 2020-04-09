@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require_relative './manufacturer'
-#require_relative './instance_counter'
+# require_relative './instance_counter'
 
 class Train
   include Manufacturer
@@ -7,11 +9,11 @@ class Train
   attr_accessor :speed
   attr_reader :carriages, :current_route, :number, :type
 
-  NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
+  NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i.freeze
 
   @@all = []
 
-#number == string, type == 'pass' or 'cargo'
+  # number == string, type == 'pass' or 'cargo'
   def initialize(number)
     register_instance
     @number = number.to_s
@@ -23,7 +25,7 @@ class Train
   def valid?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 
@@ -32,10 +34,10 @@ class Train
   end
 
   def add_carriage(carriage)
-      speed_zero!
-      type_carriage_validate!(carriage)
-      @carriages ||= []
-      @carriages << carriage
+    speed_zero!
+    type_carriage_validate!(carriage)
+    @carriages ||= []
+    @carriages << carriage
   end
 
   def delete_carriage(carriage)
@@ -60,7 +62,9 @@ class Train
   end
 
   def current_station
-    @current_station  = self.current_route.stations.each { |station| return station if station.trains.include?(self) }
+    @current_station = current_route.stations.each do |station|
+      return station if station.trains.include?(self)
+    end
   end
 
   def next_station
@@ -68,7 +72,7 @@ class Train
       extreme_station_valid!('end')
       @next_station = @current_route.stations[-1]
     else
-      @next_station = self.current_route.stations[(current_index + 1)]
+      @next_station = current_route.stations[(current_index + 1)]
     end
   end
 
@@ -83,13 +87,13 @@ class Train
 
   def go_next_station
     @current_station.send_train(self)
-    @current_station = self.next_station
+    @current_station = next_station
     @current_station.add_train(self)
   end
 
   def go_previous_station
     @current_station.send_train(self)
-    @current_station = self.previous_station
+    @current_station = previous_station
     @current_station.add_train(self)
   end
 
@@ -98,7 +102,9 @@ class Train
   def validate!
     raise 'Number is too short!' if number.length < 5
     raise 'Speed should be between 0 and 100.' unless (0..100).include?(speed)
-    raise 'Number format: three digits or characters optional dash and two more numbers or characters.' if number !~ NUMBER_FORMAT
+    if number !~ NUMBER_FORMAT
+      raise 'Number format: three digits or characters optional dash and two more numbers or characters.'
+    end
   end
 
   def speed_zero!
@@ -106,14 +112,16 @@ class Train
   end
 
   def type_carriage_validate!(carriage)
-    raise 'Invalid type of carriage! Choose another carriage or train.' unless carriage.type == self.type
+    unless carriage.type == type
+      raise 'Invalid type of carriage! Choose another carriage or train.'
+    end
   end
 
   def extreme_station_valid!(extreme)
     raise "The train is already at the #{extreme} station!"
   end
 
-# current_index private, 'cause used only by methods of instance.
+  # current_index private, 'cause used only by methods of instance.
   def current_index
     @current_index = @current_route.stations.index(@current_station)
   end
