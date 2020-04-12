@@ -440,7 +440,7 @@ class Menu
   end
 
   def carriages_of_train_list
-    puts @train.carriages_to_s
+    @train.carriages_to_s
   rescue StandardError
     puts 'Firstly add some carriage to the train.'
   end
@@ -463,7 +463,7 @@ class Menu
       if !@stations[station_sequence_number - 1].trains
         puts 'there no train, yet.'
       else
-        puts @stations[station_sequence_number - 1].to_s
+        @stations[station_sequence_number - 1].to_s
       end
     end
   end

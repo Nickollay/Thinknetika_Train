@@ -10,7 +10,6 @@ class Carriage
 
   def initialize(number)
     @number = number
-    # validate!
   end
 
   def valid?

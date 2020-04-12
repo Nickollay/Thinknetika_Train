@@ -41,8 +41,10 @@ class Station
   end
 
   def to_s
-    train = proc { |train| "Number: #{train.number}, type: #{train.type}, carriages: #{train.number_of_carriages}." }
-    each_train(&train)
+    each_train do |train|
+      puts "Number: #{train.number}, type: #{train.type}, carriages: #{train.number_of_carriages}."
+    end
+
   end
 
   def show_trains_on_station_by_type(by_type)

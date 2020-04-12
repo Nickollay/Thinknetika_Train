@@ -7,9 +7,8 @@ class PassengerTrain < Train
   end
 
   def carriages_to_s
-    carriage = proc do |carriage|
-      "Carriage number: #{carriage.number}, type: #{carriage.type}, free seats: #{carriage.free_seats}, taken seats: #{carriage.taken_seats}."
+    each_carriage do |carriage|
+      puts "Carriage number: #{carriage.number}, type: #{carriage.type}, free seats: #{carriage.free_seats}, taken seats: #{carriage.taken_seats}."
     end
-    puts each_carriage(&carriage)
   end
  end
