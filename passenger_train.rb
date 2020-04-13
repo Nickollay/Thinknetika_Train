@@ -11,4 +11,4 @@ class PassengerTrain < Train
       puts "Carriage number: #{carriage.number}, type: #{carriage.type}, free seats: #{carriage.free_seats}, taken seats: #{carriage.taken_seats}."
     end
   end
- end
+end

@@ -10,7 +10,7 @@ require_relative 'passenger_carriage'
 require_relative 'station'
 require_relative 'route'
 
-# !!!!!!!!!!!!!!Sooner, Take every puts from other classes into Menu class!!!!!!!!!!!!
+# remove this line!
 class Menu
   def initialize; end
 
@@ -372,10 +372,11 @@ class Menu
   end
 
   def valid_input?(arr)
-    @input.to_i > 0 && @input.to_i <= arr.size
+    @input.to_i.positive? && @input.to_i <= arr.size
   end
 
-  # Later if possible to give argument as method, than refactor with current method methods such as 'objects_list'
+  # Later if possible to give argument as method,
+  # than refactor with current method methods such as 'objects_list'
   # def objects_list(objects, method)
   # objects.each { |object| puts "#{objects.index(object) + 1}: #{object.method}" }
   # end
@@ -389,7 +390,7 @@ class Menu
 
   def routes_list
     puts 'Routes:'
-    @routes.each { |route| puts "#{@routes.index(route) + 1}: #{route}" }
+    @routes.each { |route| puts "#{@routes.index(route) + 1}: #{route.to_s}" }
   rescue StandardError
     puts 'Firstly create some route.'
   end
@@ -459,7 +460,7 @@ class Menu
       puts 'Enter sequence number of station'
       input until valid_input?(@stations)
       station_sequence_number = @input.to_i
-      puts "Trains on current station #{@stations[station_sequence_number - 1].name}:"
+      puts "Trains on station #{@stations[station_sequence_number - 1].name}:"
       if !@stations[station_sequence_number - 1].trains
         puts 'there no train, yet.'
       else
@@ -485,7 +486,7 @@ class Menu
       input until valid_input?(@stations)
       manipulated_station_index = @input.to_i - 1
       @routes[manipulated_route_index].add_way_station(@stations[manipulated_station_index]) until @routes[manipulated_route_index].stations.include?(@stations[manipulated_station_index])
-      puts "Station #{@stations[@input.to_i - 1].name} added to the chosen route."
+      puts "Station #{@stations[@input.to_i - 1].name} added to the route."
     end
   end
 
@@ -564,7 +565,7 @@ class Menu
       puts 'Enter sequence number of route.'
       input
       input until valid_input?(@routes)
-      @train.set_current_route(@routes[@input.to_i - 1])
+      @train.current_route = @routes[@input.to_i - 1]
       puts "The route #{@routes[@input.to_i - 1]} was set to the train #{@train.number}"
     end
   end
@@ -636,7 +637,7 @@ class Menu
   def menu_delete_carriage
     choose_carriage(@train.type)
     @train.delete_carriage(@carriage)
-    puts "Carriage #{@carriage.number} was deleted from the train #{@train.number}"
+    puts "Carriage #{@carriage.number} was deleted from train #{@train.number}"
   rescue StandardError => e
     puts e.message
   end
@@ -651,14 +652,14 @@ class Menu
 
   def menu_go_next_station
     @train.go_next_station
-    puts "Train #{@train.number} now on the #{@train.current_station.name} station."
+    puts "Train #{@train.number} on the #{@train.current_station.name} station."
   rescue StandardError => e
     puts e.message
   end
 
   def menu_go_previous_station
     @train.go_previous_station
-    puts "Train #{@train.number} now on the #{@train.current_station.name} station."
+    puts "Train #{@train.number} on the #{@train.current_station.name} station."
   rescue StandardError => e
     puts e.message
   end

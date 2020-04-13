@@ -31,6 +31,6 @@ class PassengerCarriage < Carriage
   def validate!
     super
     raise 'Number of seats should be an Integer.' unless seats.is_a? Integer
-    raise 'Number of seats should be more than 0.' unless seats > 0
+    raise 'Number of seats should be more than 0.' unless seats.positive?
   end
 end

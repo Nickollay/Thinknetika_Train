@@ -54,7 +54,7 @@ class Train
     @carriages.map { |carriage| yield(carriage) }
   end
 
-  def set_current_route(route)
+  def current_route=(route)
     @current_route = route
     @current_index = 0
     @current_station = @current_route.stations[0]
@@ -102,9 +102,9 @@ class Train
   def validate!
     raise 'Number is too short!' if number.length < 5
     raise 'Speed should be between 0 and 100.' unless (0..100).include?(speed)
-    if number !~ NUMBER_FORMAT
-      raise 'Number format: three digits or characters optional dash and two more numbers or characters.'
-    end
+    return unless number !~ NUMBER_FORMAT
+
+    raise 'Format: 3 digits/characters, optional dash and 2 numbers/characters.'
   end
 
   def speed_zero!
@@ -112,9 +112,9 @@ class Train
   end
 
   def type_carriage_validate!(carriage)
-    unless carriage.type == type
-      raise 'Invalid type of carriage! Choose another carriage or train.'
-    end
+    return if carriage.type == type
+
+    raise 'Invalid type of carriage! Choose another carriage or train.'
   end
 
   def extreme_station_valid!(extreme)

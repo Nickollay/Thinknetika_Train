@@ -23,8 +23,8 @@ class Carriage
 
   def validate!
     raise 'Number is too short!' if number.length < 5
-    if number !~ NUMBER_FORMAT
-      raise 'Number format: three digits or characters optional dash and two more numbers or characters.'
-    end
+    return unless number !~ NUMBER_FORMAT
+
+    raise 'Format: 3 digits/characters optional '-' and 2numbers/characters.'
   end
 end

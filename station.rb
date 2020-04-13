@@ -42,9 +42,10 @@ class Station
 
   def to_s
     each_train do |train|
-      puts "Number: #{train.number}, type: #{train.type}, carriages: #{train.number_of_carriages}."
+      puts "Number: #{train.number}, " +
+           "type: #{train.type}, " +
+           "carriages: #{train.number_of_carriages}."
     end
-
   end
 
   def show_trains_on_station_by_type(by_type)
@@ -58,9 +59,9 @@ class Station
   private
 
   def validate!
-    if name !~ NAME_FORMAT
-      raise 'Format of name should be: start with capital letter than downcase letters.'
-    end
     raise 'Length of name should be more than 3 characters.' if name.length < 4
+    return unless name !~ NAME_FORMAT
+
+    raise 'Name format: start with capital letter than downcase letters.'
   end
 end

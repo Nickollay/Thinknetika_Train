@@ -23,12 +23,12 @@ class CargoCarriage < Carriage
   private
 
   def validate_free_volume!(cargo)
-    raise 'No free volume anymore!' if @free_volume == 0
+    raise 'No free volume anymore!' if @free_volume.zero?
     raise 'There are not enough volume!' if cargo > @free_volume
   end
 
   def validate!
     super
-    raise 'Volume should be more than 0.' unless @volume > 0
+    raise 'Volume should be more than 0.' unless @volume.positive?
   end
 end
