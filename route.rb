@@ -32,7 +32,7 @@ class Route
   private
 
   # For now this validation is redundant.
-  # Because in maine.rb there is possible to create route only with two stations.
+  # Cause in maine.rb there is possible to create route only with two stations.
   # And also impossible to delete last two stations in the route.
   # Maybe later somehow it helps to refactor maine.rb...
   def validate!

@@ -42,8 +42,8 @@ class Station
 
   def to_s
     each_train do |train|
-      puts "Number: #{train.number}, " +
-           "type: #{train.type}, " +
+      puts "Number: #{train.number}, " \
+           "type: #{train.type}, " \
            "carriages: #{train.number_of_carriages}."
     end
   end

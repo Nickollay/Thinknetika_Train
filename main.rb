@@ -378,12 +378,16 @@ class Menu
   # Later if possible to give argument as method,
   # than refactor with current method methods such as 'objects_list'
   # def objects_list(objects, method)
-  # objects.each { |object| puts "#{objects.index(object) + 1}: #{object.method}" }
+  #   objects.each do |object|
+  #     puts "#{objects.index(object) + 1}: #{object.method}"
+  #     end
   # end
 
   def stations_list
     puts 'Stations:'
-    @stations.each { |station| puts "#{@stations.index(station) + 1}: #{station.name}" }
+    @stations.each do |station|
+      puts "#{@stations.index(station) + 1}: #{station.name}"
+    end
   rescue StandardError
     puts 'Firstly create some station.'
   end
@@ -420,7 +424,9 @@ class Menu
   def passenger_carriages_list
     puts 'Passenger carriages:'
     pass_carriages = @carriages.select { |carriage| carriage.type == 'pass' }
-    pass_carriages.each { |carriage| puts "Number: #{carriage.number}, free seats: #{carriage.free_seats}." }
+    pass_carriages.each do |carriage|
+      puts "Number: #{carriage.number}, free seats: #{carriage.free_seats}."
+    end
   rescue StandardError
     puts 'Firstly create some carriage.'
   end
@@ -428,14 +434,18 @@ class Menu
   def cargo_carriages_list
     puts 'Cargo carriages:'
     cargo_carriages = @carriages.select { |carriage| carriage.type == 'cargo' }
-    cargo_carriages.each { |carriage| puts "Number: #{carriage.number}, free_volume: #{carriage.free_volume}." }
+    cargo_carriages.each do |carriage|
+      puts "Number: #{carriage.number}, free_volume: #{carriage.free_volume}."
+    end
   rescue StandardError
     puts 'Firstly create some carriage.'
   end
 
   def train_carriages_list
     puts "Carriages of the train #{@train.number}"
-    @train.carriages.each { |carriage| puts "#{@train.carriages.index(carriage) + 1}: #{carriage.number}" }
+    @train.carriages.each do |carriage|
+      puts "#{@train.carriages.index(carriage) + 1}: #{carriage.number}"
+    end
   rescue StandardError
     puts 'Firstly add some carriage to the train.'
   end
@@ -448,7 +458,8 @@ class Menu
 
   def route_stations_list
     puts 'Stations of the current route:'
-    @routes[@input.to_i - 1].each { |station| puts "#{@routes[@input.to_i - 1].index(station) + 1}: #{station.name}" }
+    i = @input.to_i - 1
+    @routes[i].each { |station| puts "#{@routes[i].index(station) + 1}: #{station.name}" }
   end
 
   def show_trains_on_current_station
@@ -590,6 +601,7 @@ class Menu
     when '4'
       menu_manipulate_trains
     when 'exit'
+      exit(0)
     else
       puts 'Invalid input!'
     end

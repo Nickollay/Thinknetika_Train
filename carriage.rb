@@ -25,6 +25,6 @@ class Carriage
     raise 'Number is too short!' if number.length < 5
     return unless number !~ NUMBER_FORMAT
 
-    raise 'Format: 3 digits/characters optional '-' and 2numbers/characters.'
+    raise 'Format: 3 digits/characters optional dash and 2 numbers/characters.'
   end
 end

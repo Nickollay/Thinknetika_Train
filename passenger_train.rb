@@ -8,7 +8,8 @@ class PassengerTrain < Train
 
   def carriages_to_s
     each_carriage do |carriage|
-      puts "Carriage number: #{carriage.number}, type: #{carriage.type}, free seats: #{carriage.free_seats}, taken seats: #{carriage.taken_seats}."
+      puts "Carriage number: #{carriage.number}, type: #{carriage.type}, " \
+           "free seats: #{carriage.free_seats}, taken seats: #{carriage.taken_seats}."
     end
   end
 end

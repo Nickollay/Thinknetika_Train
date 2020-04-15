@@ -1,0 +1,23 @@
+AllCops:
+  TargetRubyVersion: 2.6.4
+
+AllCops:
+  Exclude:
+    - test.rb
+    - to_do_list.txt
+    - .gitignore
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 90
+
+Style/ClassVars:
+  Enabled: false
+
+Lint/RedundantStringCoercion:
+  Enabled: false
