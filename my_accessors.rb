@@ -1,4 +1,6 @@
-module Accessors
+# frozen_string_literal: true
+
+module MyAccessors
   def attr_accessor_with_history(*methods)
     options = methods.last.is_a?(Hash) ? methods.pop : {}
     @values = {}
@@ -20,7 +22,6 @@ module Accessors
   end
 
   def strong_attr_accessor(method, method_class)
-    methods.each do |method|
       raise TypeError.new('Method name is not symbol.') unless method.is_a?(Symbol)
       define_method(method) do
         instance_variable_get("@#{method}")
@@ -30,7 +31,6 @@ module Accessors
         raise TypeError.new("Method type is not #{method_class}.") unless method.is_a?(method_class)
         instance_variable_set("@#{method}", value)
       end
-    end
   end
 end
 #  Этот метод динамически создает геттеры и сеттеры
