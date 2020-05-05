@@ -399,14 +399,6 @@ class Menu
     retry
   end
 
-  # def route_index
-  #   route_index_memoization ||= chose_route_index
-  # end
-  #
-  # def station_index
-  #   station_index_memoization ||= chose_station_index
-  # end
-
   def add_station
     routes_exist_validate!
     route_index ||= chose_route_index
@@ -440,7 +432,7 @@ class Menu
 
   def chose_station_index
     puts 'Choose station:'
-    # change later .stations_list on list of stations of chosen route.
+    # TODO: change later .stations_list on list of stations of chosen route.
     stations_list
     input_to_i
     valid_input!(@stations)
@@ -524,13 +516,13 @@ class Menu
     puts "You've taken #{@input} volume of #{@carriage.number}."
   end
 
-  # Later if possible to give argument as method,
-  # than refactor with current method methods such as 'objects_list'
-  # def objects_list(objects, method)
-  #   objects.each do |object|
-  #     puts "#{objects.index(object) + 1}: #{object.method}"
-  #     end
-  # end
+  # TODO: Later if possible to give argument as method,
+  #  than refactor with current method methods such as 'objects_list'
+  #  def objects_list(objects, method)
+  #    objects.each do |object|
+  #    puts "#{objects.index(object) + 1}: #{object.method}"
+  #    end
+  #  end
 
   def stations_list
     stations_exist_validate!

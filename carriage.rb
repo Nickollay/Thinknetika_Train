@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative './manufacturer'
-
+# require_relative './accessors'
 class Carriage
   include Manufacturer
   attr_reader :type, :number
