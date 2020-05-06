@@ -4,12 +4,13 @@ module Accessors
   def attr_accessor_with_history(*methods)
     methods.each do |method|
       raise TypeError.new('Method name is not symbol.') unless method.is_a?(Symbol)
-      instance_variable_set("@#{method}_history", [])
+
       define_method(method) { instance_variable_get("@#{method}") }
       define_method("#{method}_history") { instance_variable_get("@#{method}_history") }
 
       define_method("#{method}=") do |value|
         instance_variable_set("@#{method}", value)
+        instance_variable_set("@#{method}_history", []) if instance_variable_get("@#{method}_history").nil?
         instance_variable_get("@#{method}_history") << value
       end
     end
