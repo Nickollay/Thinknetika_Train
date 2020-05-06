@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Validation
+  # rubocop:disable Style/AsciiComments, Layout/TrailingEmptyLines, Layout/LineLength, Lint/RedundantCopDisableDirective, Style/FrozenStringLiteralComment
   # Содержит метод класса validate. Этот метод принимает в качестве параметров имя проверяемого атрибута,
   # а также тип валидации и при необходимости дополнительные параметры.Возможные типы валидаций:
   #
@@ -43,4 +46,5 @@ module Validation
   # Валидации заменить на методы из модуля Validation.
   #
   #         В качестве ответа приложить ссылку на репозиторий с решением
+  # rubocop:enable Style/AsciiComments,  Layout/TrailingEmptyLines, Layout/LineLength, Lint/RedundantCopDisableDirective, Style/FrozenStringLiteralComment
 end

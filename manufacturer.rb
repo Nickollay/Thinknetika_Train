@@ -4,6 +4,6 @@ require_relative './accessors'
 
 module Manufacturer
   extend Accessors
-
   attr_accessor_with_history :manufacturer
+  strong_attr_accessor :test, String
 end

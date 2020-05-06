@@ -24,13 +24,15 @@ class Menu
     Enter: 1, to create station, train, carriage or route for train.
     Enter: 2, to manipulate with created objects.
     Enter: 3, to look at list of created objects.
+    Enter: 4, to test accessors.
     Enter: 0, to exit.'
   LIST
 
   MENU_CHOICE = {
     1 => :menu_1,
     2 => :menu_2,
-    3 => :menu_3
+    3 => :menu_3,
+    4 => :test_accessors
   }.freeze
 
   MENU_1_OPTIONS = <<-LIST
@@ -760,6 +762,25 @@ class Menu
 
     raise "Route does't have chosen station"
   end
+
+  #rubocop:disable all
+  def test_accessors
+    e = Train.new('eeeee')
+    puts "Train created: #{e}."
+    e.manufacturer='First'
+    puts "Manufacturer: #{e.manufacturer}"
+    e.manufacturer='New'
+    puts "New manufacturer: #{e.manufacturer}"
+    puts "Manufacturer history: #{e.manufacturer_history}"
+    print "Test valid value for strong accessors: "
+    puts "#{e.test = 'Europe'}"
+    print "Test INvalid value for strong accessors: "
+    e.test = 67
+    puts "Check value after invalid input, should be 'Europe': #{e.test}."
+    puts "\n"
+    menu
+  end
+  #rubocop:enable all
 end
 
 Menu.new.start

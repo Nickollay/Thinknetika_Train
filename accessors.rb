@@ -16,13 +16,17 @@ module Accessors
     end
   end
 
+
   def strong_attr_accessor(method, method_class)
       raise TypeError.new('Method name is not symbol.') unless method.is_a?(Symbol)
       define_method(method) { instance_variable_get("@#{method}") }
 
       define_method("#{method}=") do |value|
-        raise TypeError.new("Method type is not #{method_class}.") unless value.is_a?(method_class)
+        raise TypeError.new("Value type is not #{method_class}.") unless value.is_a?(method_class)
         instance_variable_set("@#{method}", value)
+      rescue TypeError => e
+        puts e
       end
   end
+
 end
