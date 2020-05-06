@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-require_relative './my_accessors'
 require_relative './manufacturer'
 require_relative './instance_counter'
 
 class Train
   include Manufacturer
   include InstanceCounter
-  include MyAccessors
   attr_accessor :speed
   attr_reader :carriages, :current_route, :number, :type
 

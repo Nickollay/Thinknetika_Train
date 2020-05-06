@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require_relative './accessors'
+
 module Manufacturer
-  attr_accessor :manufacturer
+  extend Accessors
+
+  attr_accessor_with_history :manufacturer
 end
