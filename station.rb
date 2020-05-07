@@ -2,9 +2,14 @@
 
 class Station
   include InstanceCounter
+  include Validation
+
   attr_reader :trains, :name
 
   NAME_FORMAT = /^[A-Z][a-z]+$/.freeze
+
+  validate :name, :presence
+  validate :name, :format, NAME_FORMAT
 
   def initialize(name)
     register_instance
@@ -30,12 +35,6 @@ class Station
     @trains << train
   end
 
-  # def to_s
-  #   @trains.each {
-  #     |train| puts "#{self.name} station: #{train.number}, #{train.type}"
-  #   }
-  # end
-
   def each_train
     @trains.map { |train| yield(train) }
   end
@@ -54,14 +53,5 @@ class Station
 
   def send_train(train)
     @trains.delete(train)
-  end
-
-  private
-
-  def validate!
-    raise 'Length of name should be more than 3 characters.' if name.length < 4
-    return unless name !~ NAME_FORMAT
-
-    raise 'Name format: start with capital letter than downcase letters.'
   end
 end
