@@ -49,5 +49,9 @@ module Validation
     def validate_length(name, value, arg)
       raise "Length of #{name} should be at least #{arg}!" if value.length < arg
     end
+
+    def within_the_range(name, value, range)
+      raise "#{name} should be within the range #{range.to_s}" unless range.include?(value)
+    end
   end
 end

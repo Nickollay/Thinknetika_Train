@@ -6,6 +6,7 @@ require_relative './instance_counter'
 class Train
   include Manufacturer
   include InstanceCounter
+
   attr_accessor :speed
   attr_reader :carriages, :current_route, :number, :type
 
@@ -18,7 +19,6 @@ class Train
     register_instance
     @number = number.to_s
     @speed = 0
-    validate!
     @@all << self
   end
 
@@ -98,14 +98,6 @@ class Train
   end
 
   private
-
-  def validate!
-    raise 'Number is too short!' if number.length < 5
-    raise 'Speed should be between 0 and 100.' unless (0..100).include?(speed)
-    return unless number !~ NUMBER_FORMAT
-
-    raise 'Format: 3 digits/characters, optional dash and 2 numbers/characters.'
-  end
 
   def speed_zero!
     raise 'Speed should be zero!' unless @speed.zero?
