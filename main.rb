@@ -205,6 +205,8 @@ class Menu
   }.freeze
 
   def input_to_i
+    # TODO: now there is a bag: in #input_to_i  if user input a character "@input = gets.chomp.to_i"
+    #  makes it equal zero and #exit? quit program.
     @input = gets.chomp.to_i
     exit? ? exit! : @input
   end

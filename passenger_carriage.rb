@@ -4,6 +4,12 @@ require_relative 'carriage'
 class PassengerCarriage < Carriage
   attr_reader :free_seats, :taken_seats, :seats
 
+  validate :number, :presence
+  validate :number, :format, NUMBER_FORMAT
+  validate :seats, :type, Integer
+  validate :seats, :positive
+
+
   def initialize(number, seats)
     super(number)
     @seats = seats
@@ -25,12 +31,5 @@ class PassengerCarriage < Carriage
 
   def validate_free_seats!
     raise 'All seats taken!' if @free_seats.zero?
-  end
-
-  # If this method called from initialise of superclass, would it work?
-  def validate!
-    super
-    raise 'Number of seats should be an Integer.' unless seats.is_a? Integer
-    raise 'Number of seats should be more than 0.' unless seats.positive?
   end
 end

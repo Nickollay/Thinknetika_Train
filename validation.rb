@@ -39,7 +39,15 @@ module Validation
     end
 
     def validate_type(name, value, type)
-      raise "#{name}: #{value} should be #{type}."
+      raise "#{name}: #{value} should be #{type}." if value.class != type
+    end
+
+    def validate_positive(name, value, _)
+      raise "#{name}: #{value} should be positive." unless value.positive?
+    end
+
+    def validate_length(name, value, arg)
+      raise "Length of #{name} should be at least #{arg}!" if value.length < arg
     end
   end
 end
